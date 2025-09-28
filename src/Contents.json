@@ -143,7 +143,7 @@
            "Generate response using an \\b{LLM}", 
            "Format email and send"
           ],
-        "link": {"type": "url", "text": "View Project", "link":"https://github.com/mackthompson16/EmailBot"}
+        "link": {"type": "url", "text": "View Project", "link":"https://github.com/mackthompson16/Email-Bot"}
       },
         {"header": "Social Platform",
         "paragraph":"I created a calendar-sharing and messaging platform to understand how \\b{data} is transferred and managed. This involved a small \\b{API library}, a \\b{server} for live messaging, and a \\b{react app}.",
