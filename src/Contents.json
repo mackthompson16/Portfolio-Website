@@ -5,7 +5,7 @@
       [{
         "title": "Hi!",
         "paragraphs": [
-          {"header": "HOMO SAPIEN", "paragraph": "Greetings, my name is Mack. I am a \\b{computer science student} at Auburn University. I am eager to enter the world of tech full time when I graduate in 2027. I have broad experience in \\b{software, research, and entreprenuership}, and a passion for learning new tools and subjects.  Lately I've been studying \\b{deep learning} to develop a \\b{market analysis tool}. I am always looking for a new project so don't hesitate to reach out.",
+          {"header": "HOMO SAPIEN", "paragraph": "Greetings, my name is Mack. I am a \\b{computer science and math} student at Auburn University. Currently, I'm a part time \\b{software product support intern} and a \\b{researcher for Auburn's AVTC team}. I am eager to enter the world of tech when I graduate in 2027. I have broad experience in \\b{software, research, and entreprenuership}, and a passion for learning new tools and subjects.  Lately I've been studying \\b{deep learning} to develop a \\b{market analysis tool}. I am always looking for a new project so don't hesitate to reach out.",
           "link" : {"type": "doc", "text": "View Resume", "link" : "./files/resume.pdf"}},
           {"paragraph" : "send me reels mackthompson16@gmail.com"}
         ]
@@ -37,7 +37,7 @@
     "tabs": [
       {
 
-        "title": "Bachelors",
+        "title": "CS",
         "paragraphs": 
         [
         { "header": "Computer Science, but WHY?!", "paragraph":"I naturally gravitated to tech because its \\b{attractive to the curious mind}. Of course it's an \\b{economic} choice, but perhaps it's also the most \\b{wonderful career} because the future is always \\b{unknown}.","list":
@@ -52,13 +52,20 @@
         
       },
       {
-        "title": "Minors",
+        "title": "Math",
         "paragraphs": 
         [
-          {"header" : "BET minor", "paragraph" : "My Business Engineering Technology (BET) minor forces me to collaborate on \\b{entreprenuial projects} with students \\b{across disciplines}.",
-        "link":{"type":"url", "text": "What is BET?", "link": "https://eng.auburn.edu/insy/research/twc/bet-program/index.html"}},
-          {"header" : "Math minor", "paragraph" : "I study mathematics to deepen my understanding of \\b{machine learning, big data, and philosophy!} I am on track to \\b{double major} but have not commited yet."}
-        ]
+             {"header" : "Math as a second major", "paragraph" : "I study mathematics because of my career interest in \\b{machine learning and big data}. But I wouldn't study it if I didn't also just enjoy the subject. As per my obesession with \\b{absurdism and existentialism}, math is the only \\b{universal truth} we can understand. Math is how we describe anything and everything we observe."}
+         ]
+      },
+      {
+        "title":"BET",
+        "paragraphs":
+        [
+        {"header" : "BET minor", "paragraph" : "My Business Engineering Technology (BET) minor forces me to collaborate on \\b{entreprenuial projects} with students \\b{across disciplines}. It's a four course program, during which I've protyped serveral business ideas with CAD and Auburn's \\b{makerspace}. At the end of next semester, I will compete in a pitch competition and finish my journey."},
+        {
+        "link":{"type":"url", "text": "What is BET?", "link": "https://eng.auburn.edu/insy/research/twc/bet-program/index.html"}}
+         ]
       },
       {
         "title": "Involvment",
@@ -79,19 +86,19 @@
         "title": "Software",
         "paragraphs":
         [
-          {"header": "Kahua Inc.", "paragraph": "Last summer I had the privilige to work for a ground-breaking \\b{platform software} company that builds novel solutions for construction projects. I worked primarily for the \\b{quality assurance team}.",
-          "list":["Developed \\b{automated testing agents}.",
-          "Wrote \\b{internal functions} to broaden the testing framework.",
-           "Created a developer tool that \\b{increased my team’s efficiency by ~30%}.",
-            "Operated in a corporate environment."]}
+          {"header":"OCV LLC.", "paragraph":"I work part-time as a \\b{Software Product Support Intern} for OCV, a company that builds \\b{applications for local government agencies}. My role is to communicate across teams to research customer needs and develop effcient solutions."}
+          ,
+          {"header": "Kahua Inc.", "paragraph": "Last summer I had the privilige to work for a ground-breaking \\b{platform software} company that builds novel solutions for construction projects. I worked primarily for the \\b{quality assurance team}. I developed automated testing agents and internal tools to improve the efficiency of the testing framework."}
+          
         ] },
       {
         "title": "Research",
         "paragraphs":
         [
-          {"paragraph": "I'm building solutions for graduate students pursuing their dissertations."},
-          {"header": "Computer Vision", "paragraph": "For my most recent project I used vision to detect skin conditions. I \\b{webscraped} and cleaned a dataset, then \\b{diluted a public model} (EffcientNet) to measure the accuracy of medical diagnoses."},
-          {"header": "App Development", "paragraph": "I also developed a mobile therapy app to experiment with \\b{generative AI} in the realm of human psychology (full stack development)."}
+          {"header": "Computer Vision", "paragraph": "Used for medical image classification. I \\b{webscraped} and cleaned a dataset, then \\b{diluted a public model}."},
+          {"header": "App Development", "paragraph": "Mobile therapy app to experiment with \\b{generative AI} features for mental assesments."},
+          {"header": "AVTC", "paragraph": "I'm working with Auburn's \\b{Advanced Vehicle Technology Competition} (AVTC) team to implement \\b{machine learning optimization} for energy consumption."}
+    
     
         ]  },
       {
@@ -132,6 +139,26 @@
   {
     "title": "Personal",
     "tabs": [
+      {"title": "Data and ML", "paragraphs":
+      [
+      {
+      "header": "World Order Forecast",
+      "paragraph": "This project uses deep learning to model long-term geopolitical cycles by quantifying Ray Dalio’s \\b{8 metrics of empire strength}. It assembles data across centuries, normalizes economic and military indicators, and forecasts shifts in global power. Here's how it works:",
+      "list": [
+        "Assemble open-source datasets into a unified \\b{Global Macro Database}",
+        "Construct composite scores for \\b{education, debt, competitiveness, and military strength}",
+        "Normalize values and encode geographic optimism into a \\b{geography index}",
+        "Train an \\b{8-dimensional convolutional network} with a \\b{30-year recurrent window}",
+        "Evaluate model accuracy using a \\b{walk-forward validation strategy}"
+      ],
+      "link": {
+        "type": "url",
+        "text": "View Project",
+        "link": "https://github.com/mackthompson16/World-Order-Forecast"
+      }
+    }
+  ]
+      },
       {
         "title": "Programming",
         "paragraphs": [
