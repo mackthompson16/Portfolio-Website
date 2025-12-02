@@ -158,7 +158,7 @@ const buildHref = (item) => {
     );
   })}
 </nav>
-<div className="footer"><p>Last Updated 10/29/2025</p></div>
+<div className="footer"><p>Last Updated 12/1/2025</p></div>
     </div>
   );
 }

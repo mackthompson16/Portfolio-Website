@@ -1,34 +1,34 @@
 [
   {
     "title": "Me",
-    "tabs": 
-      [{
+    "tabs": [
+      {
         "title": "Hi!",
         "paragraphs": [
-          {"header": "HOMO SAPIEN", "paragraph": "Greetings, my name is Mack. I am a \\b{computer science and math} student at Auburn University. Currently, I'm a part time \\b{software product support intern} and a \\b{researcher for Auburn's AVTC team}. I am eager to enter the world of tech when I graduate in 2027. I have broad experience in \\b{software, research, and entreprenuership}, and a passion for learning new tools and subjects.  Lately I've been studying \\b{deep learning} to develop a \\b{market analysis tool}. I am always looking for a new project so don't hesitate to reach out.",
-          "link" : {"type": "doc", "text": "View Resume", "link" : "./files/resume.pdf"}},
-          {"paragraph" : "send me reels mackthompson16@gmail.com"}
+          {
+            "header": "HOMO SAPIEN",
+            "paragraph": "Greetings, my name is Mack. I am a \\b{computer science and math} student at Auburn University. I'm currently a part‑time \\b{Software Engineer Intern} and a \\b{researcher for Auburn's AVTC team}. I have broad experience in \\b{software, research, and entrepreneurship}, and a deep passion for learning new tools and subjects. Recently I've been developing a \\b{geopolitical trend forecaster} using \\b{deep learning} and building real products for real users.",
+            "link": {"type": "doc", "text": "View Resume", "link": "./files/resume.pdf"}
+          },
+          {"paragraph": "send me reels mackthompson16@gmail.com"}
         ]
       },
       {
-       
-  "title": "My Tech",
-  "paragraphs": [
-    {
-      "header": "Languages",
-      "paragraph": "\\b{Python}, Java, C#, \\b{JavaScript}, TypeScript, HTML/CSS, SQL, Ruby, MIPS Assembly"
-    },
-    {
-      "header": "Frameworks & Libraries",
-      "paragraph": 
-        "\\b{React}, Next.js, \\b{Node.js}, Tailwind, CSS, Pandas, NumPy, \\b{PyTorch}, TensorFlow, \\b{Selenium}, OpenAI, SDK, NUnit, WinAppDriver"   
-    },
-    {
-      "header": "Platforms",
-      "paragraph": "Google Cloud, \\b{AWS}, Firebase, \\b{Shopify}, Git/GitHub, \\b{AZDO}, Adobe Premiere Pro, Adobe Photoshop, Autodesk Fusion 360, WebSockets, GraphQL, Excel, Wix"
-    }
-  ]
-
+        "title": "My Tech",
+        "paragraphs": [
+          {
+            "header": "Languages",
+            "paragraph": "\\b{Python}, Java, C#, \\b{JavaScript}, TypeScript, HTML/CSS, SQL, Ruby, MIPS Assembly"
+          },
+          {
+            "header": "Frameworks & Libraries",
+            "paragraph": "\\b{React}, Next.js, Flutter, \\b{Node.js}, Tailwind, Pandas, NumPy, \\b{PyTorch}, Selenium, FlaUI, TensorFlow, OpenAI SDK"
+          },
+          {
+            "header": "Platforms",
+            "paragraph": "\\b{AWS}, Google Cloud, Firebase, \\b{Shopify}, Git/GitHub, \\b{AZDO}, Linux, REST APIs, WebSockets, GraphQL, Excel, PowerBI"
+          }
+        ]
       }
     ]
   },
@@ -36,46 +36,57 @@
     "title": "College",
     "tabs": [
       {
-
         "title": "CS",
-        "paragraphs": 
-        [
-        { "header": "Computer Science, but WHY?!", "paragraph":"I naturally gravitated to tech because its \\b{attractive to the curious mind}. Of course it's an \\b{economic} choice, but perhaps it's also the most \\b{wonderful career} because the future is always \\b{unknown}.","list":
-         [
-          "The \\b{intelligence revolution} will define my generation.",
-          "If I can understand the complexity of a computer, some day \\b{I may} understand myself.",
-          "ChatGPT is my therapist (I probabily need a \\b{human girlfriend})."
-         ]
-        ,"link" : {"type": "doc", "text": "View Unofficial Transcript", "link" : "./files/transcript.pdf"}}
-
+        "paragraphs": [
+          {
+            "header": "Computer Science, but WHY?!",
+            "paragraph": "I naturally gravitated to tech because it's \\b{attractive to the curious mind}. Of course it's an \\b{economic} choice, but it's also a \\b{wonderful career} because the future is always \\b{unknown}.",
+            "list": [
+              "The \\b{intelligence revolution} will define my generation.",
+              "If I can understand the complexity of a computer, maybe one day \\b{I understand myself}.",
+              "ChatGPT is my therapist (I probably need a \\b{human girlfriend})."
+            ],
+            "link": {"type": "doc", "text": "View Unofficial Transcript", "link": "./files/transcript.pdf"}
+          }
         ]
-        
       },
       {
         "title": "Math",
-        "paragraphs": 
-        [
-             {"header" : "Math as a second major", "paragraph" : "I study mathematics because of my career interest in \\b{machine learning and big data}. But I wouldn't study it if I didn't also just enjoy the subject. As per my obesession with \\b{absurdism and existentialism}, math is the only \\b{universal truth} we can understand. Math is how we describe anything and everything we observe."}
-         ]
-      },
-      {
-        "title":"BET",
-        "paragraphs":
-        [
-        {"header" : "BET minor", "paragraph" : "My Business Engineering Technology (BET) minor forces me to collaborate on \\b{entreprenuial projects} with students \\b{across disciplines}. It's a four course program, during which I've protyped serveral business ideas with CAD and Auburn's \\b{makerspace}. At the end of next semester, I will compete in a pitch competition and finish my journey."},
-        {
-        "link":{"type":"url", "text": "What is BET?", "link": "https://eng.auburn.edu/insy/research/twc/bet-program/index.html"}}
-         ]
-      },
-      {
-        "title": "Involvment",
-        "paragraphs":
-        [
-          {"header": "Competitive Programming", "paragraph": "Each year I travel with Auburn's team to compete in \\b{ICPC}. We have meetings weekly and mock competitions monthly. I took home a \\b{medal} in 2024!"},
-          {"header": "Lambda Chi Alpha", "paragraph": "My fraternity helps me socialize and let off steam. I try to have the new CSSE members come to ICPC with me."},
-          {"header": "STARS Computing Core", "paragraph": "Stars is a computing \\b{outreach program} for K-12. I've made presentations for highschool classes and run tables at college day."}
+        "paragraphs": [
+          {
+            "header": "Math as a second major",
+            "paragraph": "I study mathematics because of my interest in \\b{machine learning and big data}. But I also just enjoy the subject. As someone obsessed with \\b{absurdism and existentialism}, math is the only \\b{universal truth} we can understand."
+          }
         ]
-         
+      },
+      {
+        "title": "BET",
+        "paragraphs": [
+          {
+            "header": "BET minor",
+            "paragraph": "My Business Engineering Technology (BET) minor pushes me to build \\b{entrepreneurial projects} with students \\b{across disciplines}. I've prototyped business ideas with CAD tools and Auburn's \\b{makerspace}, and I'll finish by pitching in a university competition."
+          },
+          {
+            "link": {"type": "url", "text": "What is BET?", "link": "https://eng.auburn.edu/insy/research/twc/bet-program/index.html"}
+          }
+        ]
+      },
+      {
+        "title": "Involvement",
+        "paragraphs": [
+          {
+            "header": "Competitive Programming",
+            "paragraph": "Each year I travel with Auburn's ICPC team to compete in \\b{regional contests}. We practice weekly and hold mock competitions monthly. I brought home a \\b{bronze medal} in 2023 & 2024!"
+          },
+          {
+            "header": "Lambda Chi Alpha",
+            "paragraph": "My fraternity helps me socialize and stay grounded. I try to recruit new CSSE brothers into ICPC with me."
+          },
+          {
+            "header": "STARS Computing Corps",
+            "paragraph": "STARS is a K‑12 computing \\b{outreach program}. I've presented to high‑school classes and run booths at college events."
+          }
+        ]
       }
     ]
   },
@@ -84,54 +95,70 @@
     "tabs": [
       {
         "title": "Software",
-        "paragraphs":
-        [
-          {"header":"OCV LLC.", "paragraph":"I work part-time as a \\b{Software Product Support Intern} for OCV, a company that builds \\b{applications for local government agencies}. My role is to communicate across teams to research customer needs and develop effcient solutions."}
-          ,
-          {"header": "Kahua Inc.", "paragraph": "Last summer I had the privilige to work for a ground-breaking \\b{platform software} company that builds novel solutions for construction projects. I worked primarily for the \\b{quality assurance team}. I developed automated testing agents and internal tools to improve the efficiency of the testing framework."}
-          
-        ] },
+        "paragraphs": [
+          {
+            "header": "OCV LLC.",
+            "paragraph": "I work part‑time as a \\b{Software Engineer Intern} for OCV, a company building \\b{public‑safety mobile apps}. I build analytics dashboards, investigate product usage, and help shape design decisions across 30+ production apps."
+          },
+          {
+            "header": "Kahua Inc.",
+            "paragraph": "In Summer 2025, I worked for Kahua, a \\b{PaaS platform for construction}. I improved their QA testing framework, automated \\b{20+ client workflows}, and built tooling that reduced test‑development cycles by \\b{30%}."
+          }
+        ]
+      },
       {
         "title": "Research",
-        "paragraphs":
-        [
-          {"header": "Computer Vision", "paragraph": "Used for medical image classification. I \\b{webscraped} and cleaned a dataset, then \\b{diluted a public model}."},
-          {"header": "App Development", "paragraph": "Mobile therapy app to experiment with \\b{generative AI} features for mental assesments."},
-          {"header": "AVTC", "paragraph": "I'm working with Auburn's \\b{Advanced Vehicle Technology Competition} (AVTC) team to implement \\b{machine learning optimization} for energy consumption."}
-    
-    
-        ]  },
+        "paragraphs": [
+          {
+            "header": "Computer Vision",
+            "paragraph": "Scraped and cleaned a \\b{5k+ dermatology dataset}, applied augmentation, and uncovered \\b{skintone‑linked biases} when evaluating EfficientNet‑B0."
+          },
+          {
+            "header": "App Development",
+            "paragraph": "Led development of a CBT‑based therapy app, integrating \\b{GPT‑powered mental assessments} and user analytics."
+          },
+          {
+            "header": "AVTC",
+            "paragraph": "Working with Auburn's \\b{Advanced Vehicle Technology Competition} team to optimize \\b{energy consumption models} using ML."
+          }
+        ]
+      },
       {
         "title": "Freelance",
         "paragraphs": [
-            {"header": "JupJewels.com", "paragraph":"I created a website for a local company, JupJewels, with lots of custom features, communicating \\b{directly with the client}:",
-            "list":
-             [
-             "A DIY \\b{jewelry-canvas page}",
-             "Embedded data for \\b{rich search results}",
+          {
+            "header": "JupJewels.com",
+            "paragraph": "I redesigned a local storefront using \\b{customer‑behavior analytics}, increasing traffic by \\b{25%}. My custom jewelry‑builder became the best‑selling product and generated \\b{$4K in 30 days}.",
+            "list": [
+              "A DIY \\b{jewelry‑canvas} tool",
+              "Embedded data for \\b{rich search results}",
               "\\b{Dynamically updating} featured items",
-               "Email subscription automations"
-            ], "link" : {"type": "url", "text": "View Website", "link" : "https://jupjewels.com/"}
+              "Email subscription automation"
+            ],
+            "link": {"type": "url", "text": "View Website", "link": "https://jupjewels.com/"}
           }
         ]
-},
+      },
       {
         "title": "Owner",
         "paragraphs": [
-          {"header": "BWH SPORTS CAMP", "paragraph" : "I founded this company in highschool. During our peak, we took around \\b{55 kids} for \\b{four weeklong sessions}. The estimated \\b{profit} over 4 years was over \\b{$100,000}."},
-          {"paragraph":"I learned a lot:", "list": [
-            
-             "Instagram prescence & \\b{YouTube advertisements}",
-             "\\b{Finance & accounting}(via Excel and forms)",
-             "Counselor outreach, training, & operation",
-             "Organizing & painting jerseys for the campers"
-          ],
-       
-          "link":{"type": "url", "text" : "Camp Movie", "link" : "https://youtu.be/GKlthhpZl3U?si=zdTVYFM-E3fBfxow"}},
-          {"link":{"type": "url", "text" : "Camp Instagram", "link" : "https://instagram.com/BWH_Sports_Camp"}}
-          
-      
-
+          {
+            "header": "BWH SPORTS CAMP",
+            "paragraph": "I founded this company in high school. We scaled to \\b{100+ campers} and \\b{6 staff} each summer, generating over \\b{$100K in profit} across four years."
+          },
+          {
+            "paragraph": "I learned a lot:",
+            "list": [
+              "Instagram presence & \\b{YouTube ads}",
+              "\\b{Finance & accounting} using Excel",
+              "Counselor outreach, training, & operations",
+              "Designing & painting jerseys for campers"
+            ],
+            "link": {"type": "url", "text": "Camp Movie", "link": "https://youtu.be/GKlthhpZl3U?si=zdTVYFM-E3fBfxow"}
+          },
+          {
+            "link": {"type": "url", "text": "Camp Instagram", "link": "https://instagram.com/BWH_Sports_Camp"}
+          }
         ]
       }
     ]
@@ -139,57 +166,65 @@
   {
     "title": "Personal",
     "tabs": [
-      {"title": "Data and ML", "paragraphs":
-      [
       {
-      "header": "World Order Forecast",
-      "paragraph": "This project uses deep learning to model long-term geopolitical cycles by quantifying Ray Dalio’s \\b{8 metrics of empire strength}. It assembles data across centuries, normalizes economic and military indicators, and forecasts shifts in global power. Here's how it works:",
-      "list": [
-        "Assemble open-source datasets into a unified \\b{Global Macro Database}",
-        "Construct composite scores for \\b{education, debt, competitiveness, and military strength}",
-        "Normalize values and encode geographic optimism into a \\b{geography index}",
-        "Train an \\b{8-dimensional convolutional network} with a \\b{30-year recurrent window}",
-        "Evaluate model accuracy using a \\b{walk-forward validation strategy}"
-      ],
-      "link": {
-        "type": "url",
-        "text": "View Project",
-        "link": "https://github.com/mackthompson16/World-Order-Forecast"
-      }
-    }
-  ]
+        "title": "Data and ML",
+        "paragraphs": [
+          {
+            "header": "World Order Forecast",
+            "paragraph": "This project uses deep learning to model long‑term geopolitical cycles by quantifying Ray Dalio’s \\b{8 metrics of empire strength}. It assembles data across centuries, normalizes global indicators, and forecasts shifts in world power.",
+            "list": [
+              "Assemble open‑source datasets into a unified \\b{Global Macro Database}",
+              "Compute composite scores for education, debt, competitiveness, military strength",
+              "Normalize signals & encode geography into a \\b{geography index}",
+              "Train an \\b{8‑dimensional convolutional network} with a 30‑year recurrent window",
+              "Evaluate accuracy using \\b{walk‑forward validation}"
+            ],
+            "link": {"type": "url", "text": "View Project", "link": "https://github.com/mackthompson16/World-Order-Forecast"}
+          }
+        ]
       },
       {
         "title": "Programming",
         "paragraphs": [
-        {"header": "Email Bot", "paragraph" : "This managed my \\b{BWH Sports Camp} business email by answering repetitive questions from the parents in my inbox. Here's how I set it up:", 
-        "list":[
-          "Listen for a notification on \\b{the cloud}",
-          "Determine if question is frequently asked",
-           "\\b{Inject} pre-built answers into message \\b{context}", 
-           "Generate response using an \\b{LLM}", 
-           "Format email and send"
-          ],
-        "link": {"type": "url", "text": "View Project", "link":"https://github.com/mackthompson16/Email-Bot"}
-      },
-        {"header": "Social Platform",
-        "paragraph":"I created a calendar-sharing and messaging platform to understand how \\b{data} is transferred and managed. This involved a small \\b{API library}, a \\b{server} for live messaging, and a \\b{react app}.",
-          "link": {"type": "url", "text": "View Project", "link":"https://github.com/mackthompson16/WeCal"}
-            }
+          {
+            "header": "Email Bot",
+            "paragraph": "This bot managed my \\b{camp business inbox} by answering repetitive parent questions. It automated \\b{75% of inquiries} using cloud listeners and LLM‑powered templates.",
+            "list": [
+              "Listen for a notification on \\b{the cloud}",
+              "Determine if question is frequently asked",
+              "\\b{Inject} pre‑built answers into context",
+              "Generate response using an \\b{LLM}",
+              "Format email and send"
+            ],
+            "link": {"type": "url", "text": "View Project", "link": "https://github.com/mackthompson16/Email-Bot"}
+          },
+          {
+            "header": "Social Platform",
+            "paragraph": "I built a calendar‑sharing and messaging platform to understand how \\b{data flows} in full‑stack systems. It includes a small API library, a WebSocket server, and a responsive React app.",
+            "link": {"type": "url", "text": "View Project", "link": "https://github.com/mackthompson16/WeCal"}
+          }
         ]
       },
       {
-       "title": "Writing",
-        "paragraphs": 
-      [
-        {"header": "EPRIUGBE98348hahhahhahahGBSense from Nonsense", "paragraph": "I had a \\b{traumatic head injury} (from a charity boxing match) that humilated my \\b{pretentious invincibility complex}. This led me to write profusely about \\b{life, death, purpose...} a conversation I needed to have with myself. I hope to publish my book by the time I graduate college, but it doesn't matter if no one reads it. \\b{It matters to me}."},
-        {"header" : "Table of Contents", "paragraph": "", "list" :  ["An Agnostic Framework for the Universe","Navigating Conscious Experience", "Playing Civilization", "A Search for Self"],
-        "link" : {"type": "doc","text":"Preview part one", "link" : "files/Part1.pdf"}}
-  
-      ]
-    }
-  ]
-}
-
-
+        "title": "Writing",
+        "paragraphs": [
+          {
+            "header": "Sense from Nonsense",
+            "paragraph": "I had a \\b{traumatic head injury} from a charity boxing match that humbled my \\b{invincibility complex}. It led me to write about \\b{life, death, purpose, and consciousness}. I hope to publish my book by graduation—but even if no one reads it, \\b{it matters to me}."
+          },
+          {
+            "header": "Table of Contents",
+            "paragraph": "",
+            "list": [
+              "An Agnostic Framework for the Universe",
+              "Navigating Conscious Experience",
+              "Playing Civilization",
+              "A Search for Self"
+            ],
+            "link": {"type": "doc", "text": "Preview part one", "link": "files/Part1.pdf"}
+          }
+        ]
+      }
+    ]
+  }
 ]
