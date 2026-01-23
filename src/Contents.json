@@ -7,7 +7,7 @@
         "paragraphs": [
           {
             "header": "HOMO SAPIEN",
-            "paragraph": "Greetings, my name is Mack. I am a \\b{computer science and math} student at Auburn University. I'm currently a part‑time \\b{Software Engineer Intern} and a \\b{researcher for Auburn's AVTC team}. I have broad experience in \\b{software, research, and entrepreneurship}, and a deep passion for learning new tools and subjects. Recently I've been developing a \\b{geopolitical trend forecaster} using \\b{deep learning} and building real products for real users.",
+            "paragraph": "Greetings, my name is Mack. I am a \\b{computer science and math} student at Auburn University (GPA 3.76). I'm currently a part-time \\b{Software Engineer Intern at OCV} and a \\b{two-time research fellow} in \\b{computer vision and ML}. I have broad experience in \\b{software, research, and entrepreneurship}, and a deep passion for learning new tools and subjects. Recently I've been developing a \\b{geopolitical trend forecaster}, a \\b{battery telemetry predictor}, and shipping real products for real users.",
             "link": {"type": "doc", "text": "View Resume", "link": "./files/resume.pdf"}
           },
           {"paragraph": "send me reels mackthompson16@gmail.com"}
@@ -18,15 +18,15 @@
         "paragraphs": [
           {
             "header": "Languages",
-            "paragraph": "\\b{Python}, Java, C#, \\b{JavaScript}, TypeScript, HTML/CSS, SQL, Ruby, MIPS Assembly"
+            "paragraph": "\\b{Python}, Java, \\b{JavaScript}, TypeScript, C/C++, C#, HTML/CSS, SQL"
           },
           {
             "header": "Frameworks & Libraries",
-            "paragraph": "\\b{React}, Next.js, Flutter, \\b{Node.js}, Tailwind, Pandas, NumPy, \\b{PyTorch}, Selenium, FlaUI, TensorFlow, OpenAI SDK"
+            "paragraph": "\\b{React}, Next.js, Flutter, \\b{Node.js}, Tailwind, Pandas, NumPy, \\b{PyTorch}, Selenium, TensorFlow"
           },
           {
             "header": "Platforms",
-            "paragraph": "\\b{AWS}, Google Cloud, Firebase, \\b{Shopify}, Git/GitHub, \\b{AZDO}, Linux, REST APIs, WebSockets, GraphQL, Excel, PowerBI"
+            "paragraph": "\\b{AWS}, Azure, Firebase, \\b{Docker}, PostgreSQL, Git/GitHub, \\b{AZDO}, Linux, REST APIs, WebSockets, GraphQL, Bash, PowerBI, Excel"
           }
         ]
       }
@@ -76,15 +76,15 @@
         "paragraphs": [
           {
             "header": "Competitive Programming",
-            "paragraph": "Each year I travel with Auburn's ICPC team to compete in \\b{regional contests}. We practice weekly and hold mock competitions monthly. I brought home a \\b{bronze medal} in 2023 & 2024!"
+            "paragraph": "Each year I travel with Auburn's ICPC team to compete in \\b{regional contests}. We practice weekly and hold mock competitions monthly. I brought home a \\b{3rd place finish} in 2023 & 2025!"
           },
           {
-            "header": "Lambda Chi Alpha",
-            "paragraph": "My fraternity helps me socialize and stay grounded. I try to recruit new CSSE brothers into ICPC with me."
+            "header": "Lambda Chi Alpha & ACM",
+            "paragraph": "My fraternity helps me socialize and stay grounded, and ACM keeps me plugged into campus projects. I try to recruit new CSSE brothers into ICPC with me."
           },
           {
-            "header": "STARS Computing Corps",
-            "paragraph": "STARS is a K‑12 computing \\b{outreach program}. I've presented to high‑school classes and run booths at college events."
+            "header": "TFAS Charity Boxer",
+            "paragraph": "When I'm not coding, I get punched for charity. Boxing humbled me, but it also reminds me to do hard things for a cause."
           }
         ]
       }
@@ -98,11 +98,11 @@
         "paragraphs": [
           {
             "header": "OCV LLC.",
-            "paragraph": "I work part‑time as a \\b{Software Engineer Intern} for OCV, a company building \\b{public‑safety mobile apps}. I build analytics dashboards, investigate product usage, and help shape design decisions across 30+ production apps."
+            "paragraph": "I work part-time as a \\b{Software Engineer Intern} for OCV, a company building \\b{public-safety mobile apps}. I designed a centralized manifest factory to replace \\b{500K+ duplicated JSON lines} across 30+ apps and built analytics dashboards aggregating \\b{250K+ monthly events} to guide product decisions."
           },
           {
             "header": "Kahua Inc.",
-            "paragraph": "In Summer 2025, I worked for Kahua, a \\b{PaaS platform for construction}. I improved their QA testing framework, automated \\b{20+ client workflows}, and built tooling that reduced test‑development cycles by \\b{30%}."
+            "paragraph": "In Summer 2025, I worked for Kahua, a \\b{PaaS platform for construction}. I decreased automated test development time by \\b{30%} by enabling code modification without resetting the driver, and expanded Azure DevOps pipelines to automate \\b{20+ client workflows}."
           }
         ]
       },
@@ -110,16 +110,16 @@
         "title": "Research",
         "paragraphs": [
           {
+            "header": "EV Battery Telemetry",
+            "paragraph": "Building sequence-based \\b{ML models on EV battery telemetry} to forecast \\b{temperature evolution} and surface stress early."
+          },
+          {
             "header": "Computer Vision",
-            "paragraph": "Scraped and cleaned a \\b{5k+ dermatology dataset}, applied augmentation, and uncovered \\b{skintone‑linked biases} when evaluating EfficientNet‑B0."
+            "paragraph": "Scraped and cleaned a \\b{5k+ dermatology dataset}, applied augmentation, and uncovered \\b{skintone-linked biases} when evaluating EfficientNet-B0."
           },
           {
             "header": "App Development",
-            "paragraph": "Led development of a CBT‑based therapy app, integrating \\b{GPT‑powered mental assessments} and user analytics."
-          },
-          {
-            "header": "AVTC",
-            "paragraph": "Working with Auburn's \\b{Advanced Vehicle Technology Competition} team to optimize \\b{energy consumption models} using ML."
+            "paragraph": "Led development of a \\b{CBT-based therapy app} end-to-end as one of two engineers, integrating \\b{HCI principles} and user analytics."
           }
         ]
       },
@@ -128,9 +128,9 @@
         "paragraphs": [
           {
             "header": "JupJewels.com",
-            "paragraph": "I redesigned a local storefront using \\b{customer‑behavior analytics}, increasing traffic by \\b{25%}. My custom jewelry‑builder became the best‑selling product and generated \\b{$4K in 30 days}.",
+            "paragraph": "I redesigned a local storefront using \\b{customer-behavior analytics}, increasing traffic by \\b{25%}. My custom jewelry-builder became the best-selling product and generated \\b{$4K in 30 days}.",
             "list": [
-              "A DIY \\b{jewelry‑canvas} tool",
+              "A DIY \\b{jewelry-canvas} tool",
               "Embedded data for \\b{rich search results}",
               "\\b{Dynamically updating} featured items",
               "Email subscription automation"
@@ -147,7 +147,7 @@
             "paragraph": "I founded this company in high school. We scaled to \\b{100+ campers} and \\b{6 staff} each summer, generating over \\b{$100K in profit} across four years."
           },
           {
-            "paragraph": "I learned a lot:",
+            "paragraph": "I learned a lot, including shipping an \\b{AWS Pub/Sub response agent} that automated \\b{75% of client inquiries}:",
             "list": [
               "Instagram presence & \\b{YouTube ads}",
               "\\b{Finance & accounting} using Excel",
@@ -171,13 +171,13 @@
         "paragraphs": [
           {
             "header": "World Order Forecast",
-            "paragraph": "This project uses deep learning to model long‑term geopolitical cycles by quantifying Ray Dalio’s \\b{8 metrics of empire strength}. It assembles data across centuries, normalizes global indicators, and forecasts shifts in world power.",
+            "paragraph": "This project uses deep learning to model long-term geopolitical cycles by quantifying Ray Dalio's \\b{8 metrics of empire strength}. It assembles \\b{200+ years of macro data}, scores country competitiveness, and forecasts shifts in world power.",
             "list": [
-              "Assemble open‑source datasets into a unified \\b{Global Macro Database}",
-              "Compute composite scores for education, debt, competitiveness, military strength",
-              "Normalize signals & encode geography into a \\b{geography index}",
-              "Train an \\b{8‑dimensional convolutional network} with a 30‑year recurrent window",
-              "Evaluate accuracy using \\b{walk‑forward validation}"
+              "Assemble open-source datasets into a unified \\b{Global Macro Database}",
+              "Compute composite scores for education, debt, competitiveness, and geography",
+              "Normalize signals and encode geography into a \\b{geography index}",
+              "Train \\b{temporal convolutional networks} with long recurrent windows",
+              "Project \\b{30-year shifts} in relative country strength"
             ],
             "link": {"type": "url", "text": "View Project", "link": "https://github.com/mackthompson16/World-Order-Forecast"}
           }
@@ -188,11 +188,11 @@
         "paragraphs": [
           {
             "header": "Email Bot",
-            "paragraph": "This bot managed my \\b{camp business inbox} by answering repetitive parent questions. It automated \\b{75% of inquiries} using cloud listeners and LLM‑powered templates.",
+            "paragraph": "This bot managed my \\b{camp business inbox} by answering repetitive parent questions. It automated \\b{75% of inquiries} using cloud listeners and LLM-powered templates.",
             "list": [
               "Listen for a notification on \\b{the cloud}",
               "Determine if question is frequently asked",
-              "\\b{Inject} pre‑built answers into context",
+              "\\b{Inject} pre-built answers into context",
               "Generate response using an \\b{LLM}",
               "Format email and send"
             ],
@@ -200,7 +200,7 @@
           },
           {
             "header": "Social Platform",
-            "paragraph": "I built a calendar‑sharing and messaging platform to understand how \\b{data flows} in full‑stack systems. It includes a small API library, a WebSocket server, and a responsive React app.",
+            "paragraph": "I built a calendar-sharing and messaging platform to understand how \\b{data flows} in full-stack systems. It includes a \\b{React frontend}, a \\b{WebSocket server} for real-time updates, and a modular REST API on \\b{PostgreSQL}.",
             "link": {"type": "url", "text": "View Project", "link": "https://github.com/mackthompson16/WeCal"}
           }
         ]
