@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import "./styles/title.css";
 
 export default function Header() {
@@ -99,27 +99,29 @@ o8o        o888o  Y888""8o  Y8bod8P' o888o o888o Y8P
     ch === ">" ? "&gt;" :
     ch === "&" ? "&amp;" : ch;
 
-  const asciiSwap = {
-    ".": "*", "-": "=", "_": "-", '"': "'", "'": "`", "`": "'",
-    "~": "^", "!": "1", "?": "7", ":": ";", ";": ":",
-    "(": "[", ")": "]", "[": "(", "]": ")", "{": "(", "}": ")",
-    "/": "\\", "\\": "/", "|": "!", "+": "*", "*": "+", "=": "-",
-    "<": ">", ">": "<", "#": "%", "$": "S", "%": "#", "&": "@", "@": "&",
-    ",": ".", "^": "~"
-  };
+const asciiSwap = useMemo(() => ({
+  ".": "*", "-": "=", "_": "-", '"': "'", "'": "`", "`": "'",
+  "~": "^", "!": "1", "?": "7", ":": ";", ";": ":",
+  "(": "[", ")": "]", "[": "(", "]": ")", "{": "(", "}": ")",
+  "/": "\\", "\\": "/", "|": "!", "+": "*", "*": "+", "=": "-",
+  "<": ">", ">": "<", "#": "%", "$": "S", "%": "#", "&": "@", "@": "&",
+  ",": ".", "^": "~"
+}), []);
 
-  const bitFlip = (ch) => {
-    if (ch === " ") return ".";
-    const code = ch.charCodeAt(0);
-    if ((code >= 65 && code <= 90) || (code >= 97 && code <= 122)) {
-      return String.fromCharCode(code ^ 0x20);
-    }
-    if (code >= 48 && code <= 57) {
-      return String.fromCharCode(48 + ((code - 48 + 5) % 10));
-    }
-    if (asciiSwap[ch]) return asciiSwap[ch];
-    return "#";
-  };
+
+const bitFlip = useCallback((ch) => {
+  if (ch === " ") return ".";
+  const code = ch.charCodeAt(0);
+  if ((code >= 65 && code <= 90) || (code >= 97 && code <= 122)) {
+    return String.fromCharCode(code ^ 0x20);
+  }
+  if (code >= 48 && code <= 57) {
+    return String.fromCharCode(48 + ((code - 48 + 5) % 10));
+  }
+  if (asciiSwap[ch]) return asciiSwap[ch];
+  return "#";
+}, [asciiSwap]);
+
 
   // Build DOM as BLANK first
   const hostRef = useRef(null);
@@ -144,7 +146,7 @@ o8o        o888o  Y888""8o  Y8bod8P' o888o o888o Y8P
       html.push("\n");
     }
     hostRef.current.innerHTML = html.join("");
-  }, [grid]);
+  }, [grid, bitFlip]);
 
   // Animate ripple
   useEffect(() => {
