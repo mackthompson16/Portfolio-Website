@@ -34,7 +34,7 @@ export default function FolderTabs({ title, tabs = [], active, setActive, groupI
   useEffect(() => {
     const t = setTimeout(recalc, 0);
     return () => clearTimeout(t);
-  }, [active]);
+  }, [recalc, active]);
 
   useEffect(() => {
     recalc();

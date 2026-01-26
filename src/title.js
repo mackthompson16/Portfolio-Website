@@ -90,7 +90,6 @@ o8o        o888o  Y888""8o  Y8bod8P' o888o o888o Y8P
   const SPEED = 22;
   const RING_THICKNESS = 2.8;
   const GLITCH_MS = 140;
-  const PERSIST = false;
 
   // Helpers
   const encode = (ch) =>
