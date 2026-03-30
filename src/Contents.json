@@ -167,6 +167,25 @@
     "title": "Personal",
     "tabs": [
       {
+        "title": "Writing",
+        "paragraphs": [
+          {
+            "header": "Sense from Nonsense",
+            "paragraph": "I had a \\b{traumatic head injury} from a charity boxing match that humbled my \\b{invincibility complex}. It led me to write about \\b{life, death, purpose, and consciousness}. I hope to publish my book by graduation—but even if no one reads it, \\b{it matters to me}."
+          },
+          {
+            "header": "Table of Contents",
+            "paragraph": "",
+            "list": [
+              "The End of the Physical Universe",
+              "An Agnostic Framework For the universe",
+              "A Search for Self"
+            ],
+            "link": {"type": "doc", "text": "Preview part one", "link": "files/Part1.pdf"}
+          }
+        ]
+      },
+      {
         "title": "Data and ML",
         "paragraphs": [
           {
@@ -204,26 +223,8 @@
             "link": {"type": "url", "text": "View Project", "link": "https://github.com/mackthompson16/WeCal"}
           }
         ]
-      },
-      {
-        "title": "Writing",
-        "paragraphs": [
-          {
-            "header": "Sense from Nonsense",
-            "paragraph": "I had a \\b{traumatic head injury} from a charity boxing match that humbled my \\b{invincibility complex}. It led me to write about \\b{life, death, purpose, and consciousness}. I hope to publish my book by graduation—but even if no one reads it, \\b{it matters to me}."
-          },
-          {
-            "header": "Table of Contents",
-            "paragraph": "",
-            "list": [
-              "The End of the Physical Universe",
-              "An Agnostic Framework For the universe",
-              "A Search for Self"
-            ],
-            "link": {"type": "doc", "text": "Preview part one", "link": "files/Part1.pdf"}
-          }
-        ]
       }
+      
     ]
   }
 ]
