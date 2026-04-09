@@ -84,80 +84,79 @@ const buildHref = (item) => {
       <Title />
 
       <section className="main">
-      <div className="site-header">
-        <nav className="header-tabs" aria-label="Sections">
-          {sections.map((c, i) => (
-            <button
-              key={i}
-              className={`retro-tab header-tab ${i === activeSection ? "is-active" : ""}`}
-              aria-controls={`section-${groupId}-${i}`}
-              id={`left-tab-${groupId}-${i}`}
-              onClick={() => onSelect(i)}
-              type="button"
-            >
-              {"[ " + c.title + " ]"}
-            </button>
-          ))}
-        </nav>
-</div>
-        {/* Inline content: render all sections one after another */}
-        <div className="main-panel">
-          {sections.map((section, i) => {
-            const secId = `section-${groupId}-${i}`;
-            return (
-              <section
-                key={secId}
-                id={secId}
-                className={`content-section index-${i}`}
-                ref={(el) => (sectionRefs.current[i] = el)}
-                data-index={i}
-                aria-labelledby={`left-tab-${groupId}-${i}`}
+        <div className="site-header">
+          <nav className="header-tabs" aria-label="Sections">
+            {sections.map((c, i) => (
+              <button
+                key={i}
+                className={`retro-tab header-tab ${i === activeSection ? "is-active" : ""}`}
+                aria-controls={`section-${groupId}-${i}`}
+                id={`left-tab-${groupId}-${i}`}
+                onClick={() => onSelect(i)}
+                type="button"
               >
-                <Content title={section.title} tabs={section.tabs} id={groupId}/>
-              </section>
-            );
-          })}
+                {"[ " + c.title + " ]"}
+              </button>
+            ))}
+          </nav>
+        </div>
+        <div className="content-shell">
+          {/* Inline content: render all sections one after another */}
+          <div className="main-panel">
+            {sections.map((section, i) => {
+              const secId = `section-${groupId}-${i}`;
+              return (
+                <section
+                  key={secId}
+                  id={secId}
+                  className={`content-section index-${i}`}
+                  ref={(el) => (sectionRefs.current[i] = el)}
+                  data-index={i}
+                  aria-labelledby={`left-tab-${groupId}-${i}`}
+                >
+                  <Content title={section.title} tabs={section.tabs} id={groupId}/>
+                </section>
+              );
+            })}
+          </div>
         </div>
       </section>
-      
-<nav className="left-tabs" aria-label="Social links">
-  {leftList.map((item, i) => (
-    <a
-      key={`left-${i}`}
-      className="left-tab retro-tab"
-      id={`left-tab-${groupId}-${i}`}
-      href={buildHref(item)}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      {`[ ${item.title} ]`}
-    </a>
-  ))}
-</nav>
+      <nav className="left-tabs" aria-label="Social links">
+        {leftList.map((item, i) => (
+          <a
+            key={`left-${i}`}
+            className="left-tab retro-tab"
+            id={`left-tab-${groupId}-${i}`}
+            href={buildHref(item)}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {`[ ${item.title} ]`}
+          </a>
+        ))}
+      </nav>
 
-<nav className="right-tabs" aria-label="Contact links">
-  {rightList.map((item, i) => {
-    const href = buildHref(item);
-    const isPdf = typeof item.ref === "string" && /\.pdf(\?|$)/i.test(item.ref);
-    const isMailto = href.startsWith("mailto:");
+      <nav className="right-tabs" aria-label="Contact links">
+        {rightList.map((item, i) => {
+          const href = buildHref(item);
+          const isPdf = typeof item.ref === "string" && /\.pdf(\?|$)/i.test(item.ref);
+          const isMailto = href.startsWith("mailto:");
 
-    return (
-      <a
-        key={`right-${i}`}
-        className="right-tab  retro-tab"
-        id={`right-tab-${groupId}-${i}`}
-        href={href}
-        // open PDFs/external in a new tab; mailto opens the mail client
-        target={isMailto ? undefined : "_blank"}
-        rel={isMailto ? undefined : "noopener noreferrer"}
-        // optional: trigger download if you prefer (remove if you want in-browser preview)
-        {...(isPdf ? { /* download: "Mack_Thompson_Resume.pdf" */ } : {})}
-      >
-        {`[ ${item.title} ]`}
-      </a>
-    );
-  })}
-</nav>
+          return (
+            <a
+              key={`right-${i}`}
+              className="right-tab retro-tab"
+              id={`right-tab-${groupId}-${i}`}
+              href={href}
+              target={isMailto ? undefined : "_blank"}
+              rel={isMailto ? undefined : "noopener noreferrer"}
+              {...(isPdf ? { /* download: "Mack_Thompson_Resume.pdf" */ } : {})}
+            >
+              {`[ ${item.title} ]`}
+            </a>
+          );
+        })}
+      </nav>
 <div className="footer"><p>Last Updated 1/23/2026</p></div>
     </div>
   );

@@ -6,6 +6,8 @@
   flex-direction: column;
   gap: 20px;
   background: transparent;
+  width: max-content;
+  z-index: 2;
 }
 
 
@@ -20,8 +22,19 @@
   transition: transform 200ms ease;
 }
 
-.left-tabs {  top:10vh; left: 30px; }
-.right-tabs {  bottom: 5vh; right: 30px; }
+.left-tabs {
+  top: 10vh;
+  left: 30px;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+
+.right-tabs {
+  bottom: 5vh;
+  right: 30px;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
 
 /* Base tab style */
 .left-tab, .right-tab {

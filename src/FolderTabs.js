@@ -40,6 +40,21 @@ export default function FolderTabs({ title, tabs = [], active, setActive, groupI
     recalc();
   }, [recalc]);
 
+  useEffect(() => {
+    const container = containerRef.current;
+    const activeButton = btnRefs.current[active];
+    if (!container || !activeButton) return;
+
+    const isMobile = window.matchMedia("(max-width: 720px)").matches;
+    if (!isMobile) return;
+
+    activeButton.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "nearest",
+    });
+  }, [active, tabs.length]);
+
 
   return (
 

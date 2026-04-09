@@ -7,10 +7,12 @@
         "paragraphs": [
           {
             "header": "HOMO SAPIEN",
-            "paragraph": "Greetings, my name is Mack. I am a \\b{computer science and math} student at Auburn University (GPA 3.76). I'm currently a part-time \\b{Software Engineer Intern at OCV} and a \\b{two-time research fellow} in \\b{computer vision and ML}. I have broad experience in \\b{software, research, and entrepreneurship}, and a deep passion for learning new tools and subjects. Recently I've been developing a \\b{geopolitical trend forecaster}, a \\b{battery telemetry predictor}, and shipping real products for real users.",
-            "link": {"type": "doc", "text": "View Resume", "link": "./files/resume.pdf"}
+            "paragraph": "Greetings, my name is Mack. Thank you for looking at my website. \\b{I hope you see me.} Yeah ok I spent a lot of time learning about computers and stuff but really I just want meaning. \\b{AI singularity DOOM} seems to be pulling my generation. But that might be a trap, who knows. I need to be more of a monkey. So we'll see. \\b{So far so good.}",
+            "link": { "type": "doc", "text": "View Resume", "link": "./files/resume.pdf" }
           },
-          {"paragraph": "send me reels mackthompson16@gmail.com"}
+          {
+            "paragraph": "send me reels mackthompson16@gmail.com"
+          }
         ]
       },
       {
@@ -33,77 +35,33 @@
     ]
   },
   {
-    "title": "College",
-    "tabs": [
-      {
-        "title": "CS",
-        "paragraphs": [
-          {
-            "header": "Computer Science, but WHY?!",
-            "paragraph": "I naturally gravitated to tech because it's \\b{attractive to the curious mind}. Of course it's an \\b{economic} choice, but it's also a \\b{wonderful career} because the future is always \\b{unknown}.",
-            "list": [
-              "The \\b{intelligence revolution} will define my generation.",
-              "If I can understand the complexity of a computer, maybe one day \\b{I understand myself}.",
-              "ChatGPT is my therapist (I probably need a \\b{human girlfriend})."
-            ],
-            "link": {"type": "doc", "text": "View Unofficial Transcript", "link": "./files/transcript.pdf"}
-          }
-        ]
-      },
-      {
-        "title": "Math",
-        "paragraphs": [
-          {
-            "header": "Math as a second major",
-            "paragraph": "I study mathematics because of my interest in \\b{machine learning and big data}. But I also just enjoy the subject. As someone obsessed with \\b{absurdism and existentialism}, math is the only \\b{universal truth} we can understand."
-          }
-        ]
-      },
-      {
-        "title": "BET",
-        "paragraphs": [
-          {
-            "header": "BET minor",
-            "paragraph": "My Business Engineering Technology (BET) minor pushes me to build \\b{entrepreneurial projects} with students \\b{across disciplines}. I've prototyped business ideas with CAD tools and Auburn's \\b{makerspace}, and I'll finish by pitching in a university competition."
-          },
-          {
-            "link": {"type": "url", "text": "What is BET?", "link": "https://eng.auburn.edu/insy/research/twc/bet-program/index.html"}
-          }
-        ]
-      },
-      {
-        "title": "Involvement",
-        "paragraphs": [
-          {
-            "header": "Competitive Programming",
-            "paragraph": "Each year I travel with Auburn's ICPC team to compete in \\b{regional contests}. We practice weekly and hold mock competitions monthly. I brought home a \\b{3rd place finish} in 2023 & 2025!"
-          },
-          {
-            "header": "Lambda Chi Alpha & ACM",
-            "paragraph": "My fraternity helps me socialize and stay grounded, and ACM keeps me plugged into campus projects. I try to recruit new CSSE brothers into ICPC with me."
-          },
-          {
-            "header": "TFAS Charity Boxer",
-            "paragraph": "When I'm not coding, I get punched for charity. Boxing humbled me, but it also reminds me to do hard things for a cause."
-          }
-        ]
-      }
-    ]
-  },
-  {
     "title": "Professional",
     "tabs": [
+      {
+        "title": "Incoming",
+        "paragraphs": [
+          {
+            "header": "HPE",
+            "paragraph": "I will be a Cloud Engineering Intern at HPE in Summer 2025, working on cloud migration and modernization projects for enterprise clients."
+          },
+          {
+            "header": "Southern Company",
+            "paragraph": "I will be an AI Engineering Intern at Southern Company in Summer 2025, developing machine learning models to optimize energy production and grid management."
+          }
+        ]
+      },
       {
         "title": "Software",
         "paragraphs": [
           {
             "header": "OCV LLC.",
-            "paragraph": "I work part-time as a \\b{Software Engineer Intern} for OCV, a company building \\b{public-safety mobile apps}. I designed a centralized manifest factory to replace \\b{500K+ duplicated JSON lines} across 30+ apps and built analytics dashboards aggregating \\b{250K+ monthly events} to guide product decisions."
+            "paragraph": "I work part-time as a \\b{Software Engineer Intern} for OCV, a company building \\b{public-safety mobile apps}. I designed a centralized manifest factory to replace massive duplicated configuration across \\b{40+ apps}, then built the merge logic to reconstruct app-specific configs while reducing update overhead by roughly \\b{80%}."
           },
           {
             "header": "Kahua Inc.",
             "paragraph": "In Summer 2025, I worked for Kahua, a \\b{PaaS platform for construction}. I decreased automated test development time by \\b{30%} by enabling code modification without resetting the driver, and expanded Azure DevOps pipelines to automate \\b{20+ client workflows}."
           }
+          
         ]
       },
       {
@@ -111,15 +69,11 @@
         "paragraphs": [
           {
             "header": "EV Battery Telemetry",
-            "paragraph": "Building sequence-based \\b{ML models on EV battery telemetry} to forecast \\b{temperature evolution} and surface stress early."
+            "paragraph": "I am developing sequence-based \\b{ML models on EV battery telemetry} to forecast \\b{temperature evolution} and identify stress before failure."
           },
           {
             "header": "Computer Vision",
-            "paragraph": "Scraped and cleaned a \\b{5k+ dermatology dataset}, applied augmentation, and uncovered \\b{skintone-linked biases} when evaluating EfficientNet-B0."
-          },
-          {
-            "header": "App Development",
-            "paragraph": "Led development of a \\b{CBT-based therapy app} end-to-end as one of two engineers, integrating \\b{HCI principles} and user analytics."
+            "paragraph": "I scraped and cleaned a \\b{5k+ dermatology dataset}, applied augmentation and preprocessing, and uncovered \\b{skintone-linked biases} while evaluating EfficientNet-B0."
           }
         ]
       },
@@ -135,7 +89,7 @@
               "\\b{Dynamically updating} featured items",
               "Email subscription automation"
             ],
-            "link": {"type": "url", "text": "View Website", "link": "https://jupjewels.com/"}
+            "link": { "type": "url", "text": "View Website", "link": "https://jupjewels.com/" }
           }
         ]
       },
@@ -144,69 +98,44 @@
         "paragraphs": [
           {
             "header": "BWH SPORTS CAMP",
-            "paragraph": "I founded this company in high school. We scaled to \\b{100+ campers} and \\b{6 staff} each summer, generating over \\b{$100K in profit} across four years."
+            "paragraph": "I founded this company in high school and scaled it to \\b{100+ campers} and \\b{6 staff} each summer, generating over \\b{$100K in profit} before transferring ownership."
           },
           {
-            "paragraph": "I learned a lot, including shipping an \\b{AWS Pub/Sub response agent} that automated \\b{75% of client inquiries}:",
+            "paragraph": "That experience taught me operations, sales, automation, and responsibility early. I also shipped a \\b{cloud-based response agent} that automated roughly \\b{75% of client inquiries}.",
             "list": [
               "Instagram presence & \\b{YouTube ads}",
               "\\b{Finance & accounting} using Excel",
               "Counselor outreach, training, & operations",
               "Designing & painting jerseys for campers"
             ],
-            "link": {"type": "url", "text": "Camp Movie", "link": "https://youtu.be/GKlthhpZl3U?si=zdTVYFM-E3fBfxow"}
+            "link": { "type": "url", "text": "Camp Movie", "link": "https://youtu.be/GKlthhpZl3U?si=zdTVYFM-E3fBfxow" }
           },
           {
-            "link": {"type": "url", "text": "Camp Instagram", "link": "https://instagram.com/BWH_Sports_Camp"}
+            "link": { "type": "url", "text": "Camp Instagram", "link": "https://instagram.com/BWH_Sports_Camp" }
           }
         ]
       }
     ]
   },
   {
-  "title": "Personal",
-  "tabs": [
-    {
-      "title": "Writing",
-      "paragraphs": [
-        {
-          "header": "The Conscious Disease",
-          "paragraph": "A philosophical work exploring \\b{consciousness as a constraint}. We are observers embedded within a system we cannot step outside of—forced to construct meaning from within it. This book follows that path: from \\b{the physical limits of the universe}, to \\b{the emergence of belief}, to \\b{the search for self}."
-        },
-        {
-          "paragraph": "After a \\b{head injury from a charity boxing match}, I was forced to confront the fragility of experience. That moment dismantled my \\b{invincibility complex} and pushed me toward questions I couldn’t ignore: \\b{What am I? Why do I exist? What is real?} This work is my attempt to sit with those questions—without pretending to resolve them."
-        },
-        {
-          "header": "Structure",
-          "paragraph": "",
-          "list": [
-            "The Observable Universe",
-            "A Framework for the Divine",
-            "A Search for Self"
-          ],
-          "link": {
-            "type": "doc",
-            "text": "Read It",
-            "link": "files/conscious_disease.pdf"
-          }
-        }
-      ]
-    },
-    
+    "title": "Personal",
+    "tabs": [
       {
         "title": "Data and ML",
         "paragraphs": [
           {
             "header": "World Order Forecast",
-            "paragraph": "This project uses deep learning to model long-term geopolitical cycles by quantifying Ray Dalio's \\b{8 metrics of empire strength}. It assembles \\b{200+ years of macro data}, scores country competitiveness, and forecasts shifts in world power.",
+            "paragraph": "This project uses deep learning to model long-term geopolitical cycles by quantifying Ray Dalio's \\b{8 metrics of empire strength}. It assembles \\b{200+ years of macro data}, scores country competitiveness, and forecasts shifts in relative world power.",
             "list": [
-              "Assemble open-source datasets into a unified \\b{Global Macro Database}",
-              "Compute composite scores for education, debt, competitiveness, and geography",
-              "Normalize signals and encode geography into a \\b{geography index}",
-              "Train \\b{temporal convolutional networks} with long recurrent windows",
-              "Project \\b{30-year shifts} in relative country strength"
+              "Assemble \\b{open-source} datasets",
+              "Compute & normalize composite scores",
+              "Train \\b{temporal models} & project 30 year horizons"
             ],
-            "link": {"type": "url", "text": "View Project", "link": "https://github.com/mackthompson16/World-Order-Forecast"}
+            "link": { "type": "url", "text": "View Project", "link": "https://github.com/mackthompson16/World-Order-Forecast" }
+          },
+          {
+            "header": "AI Lifeguard System",
+            "paragraph": "I am building an \\b{underwater AI lifeguard system} for auburn university facilities designed for real pool deployment. It combines \\b{computer vision}, custom \\b{camera hardware}, video transport, and a lifeguard-facing interface to detect drowning-like events in real time."
           }
         ]
       },
@@ -223,16 +152,42 @@
               "Generate response using an \\b{LLM}",
               "Format email and send"
             ],
-            "link": {"type": "url", "text": "View Project", "link": "https://github.com/mackthompson16/Email-Bot"}
+            "link": { "type": "url", "text": "View Project", "link": "https://github.com/mackthompson16/Email-Bot" }
           },
           {
             "header": "Social Platform",
             "paragraph": "I built a calendar-sharing and messaging platform to understand how \\b{data flows} in full-stack systems. It includes a \\b{React frontend}, a \\b{WebSocket server} for real-time updates, and a modular REST API on \\b{PostgreSQL}.",
-            "link": {"type": "url", "text": "View Project", "link": "https://github.com/mackthompson16/WeCal"}
+            "link": { "type": "url", "text": "View Project", "link": "https://github.com/mackthompson16/WeCal" }
+          }
+        ]
+      },
+      {
+        "title": "Writing",
+        "paragraphs": [
+          {
+            "header": "The Conscious Disease",
+            "paragraph": "A philosophical work exploring \\b{consciousness as a constraint}. We are observers embedded within a system we cannot step outside of—forced to construct meaning from within it. This book follows that path: from \\b{the physical limits of the universe}, to \\b{the emergence of belief}, to \\b{the search for self}."
+          },
+          {
+            "paragraph": "After a \\b{head injury from a charity boxing match}, I was forced to confront the fragility of experience. That moment dismantled my \\b{invincibility complex} and pushed me toward exisitial thought."
+          },
+
+          {
+            "header": "Structure",
+            "paragraph": "",
+            "list": [
+              "The Observable Universe",
+              "A Framework for the Divine",
+              "A Search for Self"
+            ],
+            "link": {
+              "type": "doc",
+              "text": "Read It",
+              "link": "files/conscious_disease.pdf"
+            }
           }
         ]
       }
-  ]
-}
-
+    ]
+  }
 ]

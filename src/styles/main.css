@@ -56,6 +56,7 @@ html, body {
 .main {
   /* Full screen area (adjust if header stays fixed) */
   display: flex;
+  justify-content: center;
   /* Center content and keep your theme vars */
   background: transparent;
   color: var(--retro-text);
@@ -66,22 +67,30 @@ html, body {
   /* padding: 1.5rem 2vw; */
 }
 
+.content-shell {
+  width: min(100%, 1400px);
+}
+
 .main-panel {
-  flex: 1;                   
+  flex: 1;
+  min-width: 0;
   overflow: none;  
   background: transparent;
   color: var(--retro-text);
   flex-direction: column;
   display: flex;
-  justify-content: center;
-  margin-bottom: 5vh;
+  justify-content: flex-start;
+  margin-bottom: 0;
 }
 .content-section{
   display: flex;
   justify-content: center;
+  align-items: flex-start;
   border-top: 1px dashed rgba(128,128,128,.35); /* faint grey */
-  padding-top: 12px; 
-  height:100vh;/* keeps text off the border */
+  padding: 12px 0 32px;
+  min-height: auto;
+  height: auto;
+  box-sizing: border-box;
 }
 
 /* Constrain the content width without changing your component */
@@ -103,22 +112,27 @@ html, body {
   .main{
     margin-bottom: 0;
   }
+  .content-shell {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .content-section {
+    min-height: auto;
+    padding: 12px 0 24px;
+  }
 }
 
-  .index-0{
-    height:600px;
-  }
-  .index-1{
-    height:600px;
-  }
-  .index-2{
-    height:550px;
-  }
-  .index-3{
-    height:650px;
-  }
-
   .footer{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: clamp(24px, 6vh, 64px);
+    padding: 16px 0 32px;
     font-size: 15px;
-    align-self: center;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 2;
   }

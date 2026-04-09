@@ -71,6 +71,43 @@ const Content = ({ title, tabs, id }) => {
     return () => io.disconnect();
   }, []);
 
+  const renderPanelBody = (tab, keyPrefix) => (
+    <ul className="paragraphs-list" key={`${keyPrefix}`}>
+      {tab?.paragraphs?.map((b, j) => (
+        <li key={`${keyPrefix}-${j}`} className="paragraph-item">
+          {b.header && (
+            <h4 className="paragraph-header">{parseInline(b.header)}</h4>
+          )}
+
+          {b.paragraph && (
+            <p className="paragraph-text">{parseInline(b.paragraph)}</p>
+          )}
+
+          {Array.isArray(b.list) && (
+            <ol className="paragraph-sublist">
+              {b.list.map((item, k) => (
+                <li key={`${keyPrefix}-${j}-${k}`} className="sublist-item">
+                  {parseInline(item)}
+                </li>
+              ))}
+            </ol>
+          )}
+
+          {b.link && (
+            <a
+              href={b.link.link}
+              target={b.link.type === "url" ? "_blank" : "_self"}
+              rel={b.link.type === "url" ? "noopener noreferrer" : undefined}
+              className="link retro-tab"
+            >
+              {">[" + b.link.text + "]"}
+            </a>
+          )}
+        </li>
+      ))}
+    </ul>
+  );
+
   const activeTab = tabs?.[active];
 
   return (
@@ -86,46 +123,19 @@ const Content = ({ title, tabs, id }) => {
         <div className="title">{title}</div>
 
         {activeTab && (
-          <div
-            className="folder-panel"
-            role="tabpanel"
-            id={`panel-${groupId}-${active}`}
-            aria-labelledby={`tab-${groupId}-${active}`}
-          >
-            <ul className="paragraphs-list" key={`plist-${active}`}>
-              {activeTab.paragraphs?.map((b, j) => (
-                <li key={j} className="paragraph-item">
-                  {b.header && (
-                    <h4 className="paragraph-header">{parseInline(b.header)}</h4>
-                  )}
-
-                  {b.paragraph && (
-                    <p className="paragraph-text">{parseInline(b.paragraph)}</p>
-                  )}
-
-                  {Array.isArray(b.list) && (
-                    <ol className="paragraph-sublist">
-                      {b.list.map((item, k) => (
-                        <li key={k} className="sublist-item">
-                          {parseInline(item)}
-                        </li>
-                      ))}
-                    </ol>
-                  )}
-
-                  {b.link && (
-                    <a
-                      href={b.link.link}
-                      target={b.link.type === "url" ? "_blank" : "_self"}
-                      rel={b.link.type === "url" ? "noopener noreferrer" : undefined}
-                      className="link retro-tab"
-                    >
-                      {">[" + b.link.text + "]"}
-                    </a>
-                  )}
-                </li>
-              ))}
-            </ul>
+          <div className="folder-panel-stack">
+            {tabs.map((tab, i) => (
+            <div
+              key={`panel-${i}`}
+              className={`folder-panel ${i === active ? "is-active" : "is-hidden"}`}
+              role="tabpanel"
+              id={`panel-${groupId}-${i}`}
+              aria-labelledby={`tab-${groupId}-${i}`}
+              aria-hidden={i === active ? undefined : true}
+            >
+              {renderPanelBody(tab, `plist-${i}`)}
+            </div>
+            ))}
           </div>
         )}
       </div>
