@@ -164,8 +164,35 @@
     ]
   },
   {
-    "title": "Personal",
-    "tabs": [
+  "title": "Personal",
+  "tabs": [
+    {
+      "title": "Writing",
+      "paragraphs": [
+        {
+          "header": "The Conscious Disease",
+          "paragraph": "A philosophical work exploring \\b{consciousness as a constraint}. We are observers embedded within a system we cannot step outside of—forced to construct meaning from within it. This book follows that path: from \\b{the physical limits of the universe}, to \\b{the emergence of belief}, to \\b{the search for self}."
+        },
+        {
+          "paragraph": "After a \\b{head injury from a charity boxing match}, I was forced to confront the fragility of experience. That moment dismantled my \\b{invincibility complex} and pushed me toward questions I couldn’t ignore: \\b{What am I? Why do I exist? What is real?} This work is my attempt to sit with those questions—without pretending to resolve them."
+        },
+        {
+          "header": "Structure",
+          "paragraph": "",
+          "list": [
+            "The Observable Universe",
+            "A Framework for the Divine",
+            "A Search for Self"
+          ],
+          "link": {
+            "type": "doc",
+            "text": "Read It",
+            "link": "files/Part1.pdf"
+          }
+        }
+      ]
+    },
+    
       {
         "title": "Data and ML",
         "paragraphs": [
@@ -204,27 +231,8 @@
             "link": {"type": "url", "text": "View Project", "link": "https://github.com/mackthompson16/WeCal"}
           }
         ]
-      },
-      {
-        "title": "Writing",
-        "paragraphs": [
-          {
-            "header": "Sense from Nonsense",
-            "paragraph": "I had a \\b{traumatic head injury} from a charity boxing match that humbled my \\b{invincibility complex}. It led me to write about \\b{life, death, purpose, and consciousness}. I hope to publish my book by graduation—but even if no one reads it, \\b{it matters to me}."
-          },
-          {
-            "header": "Table of Contents",
-            "paragraph": "",
-            "list": [
-              "An Agnostic Framework for the Universe",
-              "Navigating Conscious Experience",
-              "Playing Civilization",
-              "A Search for Self"
-            ],
-            "link": {"type": "doc", "text": "Preview part one", "link": "files/Part1.pdf"}
-          }
-        ]
       }
-    ]
-  }
+  ]
+}
+
 ]
