@@ -14,23 +14,6 @@
             "paragraph": "send me reels mackthompson16@gmail.com"
           }
         ]
-      },
-      {
-        "title": "My Tech",
-        "paragraphs": [
-          {
-            "header": "Languages",
-            "paragraph": "\\b{Python}, Java, \\b{JavaScript}, TypeScript, C/C++, C#, HTML/CSS, SQL"
-          },
-          {
-            "header": "Frameworks & Libraries",
-            "paragraph": "\\b{React}, Next.js, Flutter, \\b{Node.js}, Tailwind, Pandas, NumPy, \\b{PyTorch}, Selenium, TensorFlow"
-          },
-          {
-            "header": "Platforms",
-            "paragraph": "\\b{AWS}, Azure, Firebase, \\b{Docker}, PostgreSQL, Git/GitHub, \\b{AZDO}, Linux, REST APIs, WebSockets, GraphQL, Bash, PowerBI, Excel"
-          }
-        ]
       }
     ]
   },
@@ -42,11 +25,11 @@
         "paragraphs": [
           {
             "header": "HPE",
-            "paragraph": "I will be a Cloud Engineering Intern at HPE in Summer 2025, working on cloud migration and modernization projects for enterprise clients."
+            "paragraph": "I will be a Cloud Engineering Intern at HPE in Summer 2026, working on cloud migration and modernization projects for enterprise clients."
           },
           {
             "header": "Southern Company",
-            "paragraph": "I will be an AI Engineering Intern at Southern Company in Summer 2025, developing machine learning models to optimize energy production and grid management."
+            "paragraph": "I will be an AI Engineering Intern at Southern Company in Fall 2026, developing machine learning models to optimize energy production and grid management."
           }
         ]
       },
