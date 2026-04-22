@@ -95,7 +95,7 @@ export default function App() {
         </div>
       </section>
       <Contact />
-<div className="footer"><p>Last Updated 1/23/2026</p></div>
+<div className="footer"><p>Last Updated 4/22/2026</p></div>
     </div>
   );
 }

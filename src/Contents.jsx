@@ -9,10 +9,10 @@ const contents = [
             <section className="paragraph-item">
               <h4 className="paragraph-header">Homo Sapien</h4>
               <p className="paragraph-text">
-                <strong>CS</strong> + (math? + business)^minor at Auburn.
+                Senior <strong>CS</strong> + (math? + business)^minor at Auburn.
               </p>
-              <p className="paragraph-text">What's up <strong>thanks </strong>for reading my website. Ok I spent a lot of time in a dark room on a computer but im trying to appreciate 
-                 <strong> the life around me</strong> now, instead of running to the future. I might've sold my soul to the <strong>devil</strong>. I'm having fun tho DW.
+              <p className="paragraph-text">What's up <strong>thanks </strong>for reading my website. Ok I spent a lot of time in a dark room on a computer but now im trying to appreciate 
+                 <strong> the life around me</strong>. I might've sold my soul to the <strong>devil</strong>. Life is fun tho.
               </p>
               <a href="./files/resume.pdf" className="link retro-tab">
                 &gt;[View Resume]
@@ -39,7 +39,7 @@ const contents = [
     title: "Professional",
     tabs: [
       {
-        title: "HPE",
+        title: "HPE Cloud",
         body: (
           <div className="paragraphs-list">
             <section className="paragraph-item">
@@ -57,7 +57,7 @@ const contents = [
         body: (
           <div className="paragraphs-list">
             <section className="paragraph-item">
-              <h4 className="paragraph-header">AI Engineering Intern</h4>
+              <h4 className="paragraph-header">AI Intern</h4>
               <p className="paragraph-text">
                 <strong>Fall 2026.</strong>
               </p>
@@ -106,11 +106,11 @@ const contents = [
         ),
       },
       {
-        title: "CV Research",
+        title: "Research",
         body: (
           <div className="paragraphs-list">
             <section className="paragraph-item">
-              <h4 className="paragraph-header">Dermatology Bias Analysis</h4>
+              <h4 className="paragraph-header">CV Bias Analysis</h4>
               <p className="paragraph-text">
                 I did other stuff while in this lab but mainly I worked on <strong>CV metrics / dataset construction</strong>. Built a cleaned <strong>5k+ image</strong> dermatology set.
                 I ended up presenting this at <strong>TAPIA</strong> that year.
@@ -234,12 +234,15 @@ const contents = [
         body: (
           <div className="paragraphs-list">
             <section className="paragraph-item">
-              <h4 className="paragraph-header">Pool Safety System</h4>
+              <h4 className="paragraph-header">Swim-Safe-Systems</h4>
               <p className="paragraph-text">
-                My Capstone project for my business minor was an <strong>underwater AI lifeguard</strong> with Auburn.
-                Our group built a <strong>multiplexing pipeline</strong> and a <strong>3D model</strong> that integrated with the lights and alarms at the rec center pool. 
-               </p><p className="paragraph-text">Was pretty cool to work with <strong>electrical people</strong> and see the real hardware side of things. Also got to do a lot of video processing work.
-              </p>
+                The capstone project for my business minor was an <strong>underwater AI lifeguard</strong> in collab with the university facilities.</p>
+                 <ol className="paragraph-sublist">
+                  <li className="sublist-item">water-proof <strong>multiplexing</strong> pipeline</li>
+                  <li className="sublist-item"><strong>3D model</strong> attached to the pool lights</li>
+                  <li className="sublist-item"><strong>Computer vision</strong> system to detect swimmers in distress</li>
+               </ol>
+               <p className="paragraph-text">Was pretty cool to work with <strong>electrical people</strong> and see the blueprints/infrastrutuce behind the facility.</p>
             </section>
           </div>
         ),
