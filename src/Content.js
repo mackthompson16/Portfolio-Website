@@ -37,11 +37,13 @@ const Content = ({ title, tabs }) => {
   const mobileScrollTimeoutRef = useRef(null);
   const mobileIsSyncingRef = useRef(false);
   const mobileIsDraggingRef = useRef(false);
+  const mobileDragStartIndexRef = useRef(null);
   const mobileVisualIndexRef = useRef(0);
+  const mobileChangeSourceRef = useRef("init");
+  const loopOffsetBaseRef = useRef(0);
   const rotationQueueRef = useRef([]);
   const rotationActiveRef = useRef(false);
   const flushRotationRef = useRef(null);
-  const prevLoopOffsetRef = useRef(0);
   const [active, setActive] = useState(0);
   const [loopOffset, setLoopOffset] = useState(0);
   const [isMobile, setIsMobile] = useState(() =>
@@ -246,60 +248,48 @@ const Content = ({ title, tabs }) => {
     }, isMobile ? 260 : TRANSITION_MS + 60);
   };
 
-  const handleRotate = (delta) => {
-    if (!tabs.length) return;
-    if (rotationQueueRef.current.length < 3) rotationQueueRef.current.push(delta);
-    flushRotationRef.current?.();
-  };
-
-  const handleSelect = (nextIndex) => {
-    if (!tabs.length || tabs.length === 1) return;
-    setActive(nextIndex);
-  };
-
-  // Single-tab mobile animation: fires only when loopOffset changes.
-  // Deliberately excludes renderCenter so the desktop catch-up timer (560ms later)
-  // does NOT re-trigger a second animation.
-  useEffect(() => {
-    if (!isMobile || !mobileScrollerRef.current || !viewportWidth || tabs.length !== 1) return;
-
-    const prev = prevLoopOffsetRef.current;
-    prevLoopOffsetRef.current = loopOffset;
-    if (loopOffset === prev) return;
+  const animateSingleMobileLoop = (delta) => {
+    if (!mobileScrollerRef.current || !viewportWidth || !tabs.length) return;
 
     const scroller = mobileScrollerRef.current;
-    const direction = loopOffset > prev ? "forward" : "backward";
-    const targetVisualIndex = mobileVisualIndexRef.current + (direction === "forward" ? 1 : -1);
+    const targetVisualIndex = mobileVisualIndexRef.current + delta;
     const targetLeft = targetVisualIndex * viewportWidth;
-
-    if (Math.abs(scroller.scrollLeft - targetLeft) < 2) return;
 
     mobileIsSyncingRef.current = true;
     mobileVisualIndexRef.current = targetVisualIndex;
     scroller.classList.add("no-snap");
     scroller.scrollTo({ left: targetLeft, behavior: "smooth" });
 
-    const centeredVisualIndex = tabs.length; // actualIndex=0, so 0 + tabs.length = 1
-
-    let done = false;
-    const finalize = () => {
-      if (done) return;
-      done = true;
-      if (mobileVisualIndexRef.current !== centeredVisualIndex) {
-        scroller.scrollLeft = centeredVisualIndex * viewportWidth;
-        mobileVisualIndexRef.current = centeredVisualIndex;
-      }
+    const centeredVisualIndex = tabs.length;
+    window.setTimeout(() => {
+      scroller.scrollLeft = centeredVisualIndex * viewportWidth;
+      mobileVisualIndexRef.current = centeredVisualIndex;
       mobileIsSyncingRef.current = false;
       scroller.classList.remove("no-snap");
-    };
+    }, 350);
+  };
 
-    const timeout = window.setTimeout(finalize, 350);
-    return () => { window.clearTimeout(timeout); finalize(); };
-  }, [isMobile, loopOffset, tabs.length, viewportWidth]);
+  const handleRotate = (delta) => {
+    if (!tabs.length) return;
+    mobileChangeSourceRef.current = "button";
+    if (rotationQueueRef.current.length < 3) rotationQueueRef.current.push(delta);
+    flushRotationRef.current?.();
+    if (tabs.length === 1 && isMobile) {
+      animateSingleMobileLoop(delta);
+    }
+  };
+
+  const handleSelect = (nextIndex) => {
+    if (!tabs.length || tabs.length === 1) return;
+    mobileChangeSourceRef.current = "button";
+    setActive(nextIndex);
+  };
 
   // Multi-tab mobile animation: fires when active tab changes.
   useEffect(() => {
     if (!isMobile || !mobileScrollerRef.current || !viewportWidth || tabs.length <= 1) return;
+    if (mobileIsDraggingRef.current) return;
+    if (mobileChangeSourceRef.current === "scroll") return;
 
     const scroller = mobileScrollerRef.current;
     const currentActualIndex = mod(mobileVisualIndexRef.current, tabs.length);
@@ -365,36 +355,63 @@ const Content = ({ title, tabs }) => {
 
   const handleMobileScroll = (event) => {
     if (!isMobile || !viewportWidth || !tabs.length || mobileIsSyncingRef.current) return;
-    // Ignore scroll events during an active drag; only process snap-settle events.
-    if (mobileIsDraggingRef.current) return;
 
     if (mobileScrollTimeoutRef.current) {
       clearTimeout(mobileScrollTimeoutRef.current);
     }
 
     const scroller = event.currentTarget;
+    const liveRawIndex = Math.round(scroller.scrollLeft / viewportWidth);
+    const liveActualIndex = mod(liveRawIndex, tabs.length);
+    mobileChangeSourceRef.current = "scroll";
+
+    if (tabs.length === 1) {
+      const dragStartIndex = mobileDragStartIndexRef.current ?? liveRawIndex;
+      const nextLoopOffset = loopOffsetBaseRef.current + (liveRawIndex - dragStartIndex);
+      setLoopOffset((current) => (current === nextLoopOffset ? current : nextLoopOffset));
+    } else {
+      setActive((current) => (current === liveActualIndex ? current : liveActualIndex));
+    }
 
     // Read position inside the timeout so we always capture the fully-settled snap position.
     mobileScrollTimeoutRef.current = setTimeout(() => {
       if (mobileIsDraggingRef.current) return;
 
       const rawIndex = Math.round(scroller.scrollLeft / viewportWidth);
-      const actualIndex = mod(rawIndex, tabs.length);
+      const dragStartIndex = mobileDragStartIndexRef.current ?? rawIndex;
+      const clampedRawIndex =
+        dragStartIndex + Math.max(-1, Math.min(1, rawIndex - dragStartIndex));
+      const actualIndex = mod(clampedRawIndex, tabs.length);
       const centeredIndex = actualIndex + tabs.length;
 
       mobileIsSyncingRef.current = true;
       setActive((current) => (current === actualIndex ? current : actualIndex));
-      scroller.scrollLeft = centeredIndex * viewportWidth;
-      mobileVisualIndexRef.current = centeredIndex;
+
+      // Only jump back when we've drifted into the leading/trailing repeat copies.
+      if (Math.abs(clampedRawIndex - centeredIndex) > 0) {
+        scroller.scrollLeft = centeredIndex * viewportWidth;
+        mobileVisualIndexRef.current = centeredIndex;
+      } else {
+        mobileVisualIndexRef.current = clampedRawIndex;
+      }
+      mobileDragStartIndexRef.current = null;
 
       window.setTimeout(() => {
         mobileIsSyncingRef.current = false;
+        mobileChangeSourceRef.current = "idle";
       }, 60);
     }, 160);
   };
 
   const handleMobileDragStart = () => {
     mobileIsDraggingRef.current = true;
+    mobileChangeSourceRef.current = "scroll";
+    if (mobileScrollerRef.current && viewportWidth) {
+      mobileDragStartIndexRef.current = Math.round(
+        mobileScrollerRef.current.scrollLeft / viewportWidth
+      );
+    }
+    loopOffsetBaseRef.current = loopOffset;
     if (mobileScrollTimeoutRef.current) {
       clearTimeout(mobileScrollTimeoutRef.current);
       mobileScrollTimeoutRef.current = null;

@@ -485,6 +485,13 @@
     min-height: 32px;
     flex: 0 0 58px;
     padding: 0 4px;
+    color: var(--retro-text);
+  }
+
+  .tab-nav:hover,
+  .tab-nav:focus-visible,
+  .tab-nav.is-active {
+    color: var(--retro-text);
   }
 }
 
