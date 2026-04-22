@@ -1,95 +1,143 @@
-import { useEffect, useLayoutEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-export default function FolderTabs({ title, tabs = [], active, setActive, groupId}) {
-  const containerRef = useRef(null);
-  const arrowRef = useRef(null);
-  const btnRefs = useRef([]);     // each entry will be a DOM node
-  const [arrowY, setArrowY] = useState(0);
+const mod = (value, length) => ((value % length) + length) % length;
 
-  const recalc = useCallback(() => {
-      const c = containerRef.current;
-      const b = btnRefs.current[active];
-      if (!c || !b) return;
-      // position arrow vertically centered to the active button
-      const newY = b.offsetTop + (b.offsetHeight - (arrowRef.current?.offsetHeight ?? 0)) / 2;
-      setArrowY(newY);
-    }, [containerRef, btnRefs, active]);
+export default function FolderTabs({
+  title,
+  tabs = [],
+  active,
+  setActive,
+  onRotate,
+  groupId,
+  loopOffset = 0,
+}) {
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== "undefined" && window.matchMedia("(max-width: 720px)").matches
+  );
+  const [visibleCount, setVisibleCount] = useState(() =>
+    typeof window !== "undefined" && window.matchMedia("(max-width: 720px)").matches ? 3 : 5
+  );
 
-  // on mount + whenever active or tab count changes
-  useLayoutEffect(() => {
-    
-    recalc();
-    
-    const ro = new ResizeObserver(recalc);
-    if (containerRef.current) ro.observe(containerRef.current);
-    btnRefs.current.forEach(el => el && ro.observe(el));
-    window.addEventListener("resize", recalc);
-    return () => {
-      ro.disconnect();
-      window.removeEventListener("resize", recalc);
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 720px)");
+    const syncVisibleCount = (event) => {
+      setIsMobile(event.matches);
+      setVisibleCount(event.matches ? 3 : 5);
     };
-  }, [recalc, active, tabs.length]);
 
-  // nudge after paint (fonts/layout)
-  useEffect(() => {
-    const t = setTimeout(recalc, 0);
-    return () => clearTimeout(t);
-  }, [recalc, active]);
+    syncVisibleCount(media);
+    media.addEventListener("change", syncVisibleCount);
+    return () => media.removeEventListener("change", syncVisibleCount);
+  }, []);
 
-  useEffect(() => {
-    recalc();
-  }, [recalc]);
+  const displayRadius = Math.floor(visibleCount / 2);
 
-  useEffect(() => {
-    const container = containerRef.current;
-    const activeButton = btnRefs.current[active];
-    if (!container || !activeButton) return;
+  const displayedTabs = useMemo(() => {
+    if (!tabs.length) return [];
+    if (tabs.length === 1) {
+      return Array.from({ length: visibleCount }, (_, index) => {
+        const rotatedIndex = mod(index - loopOffset, visibleCount);
+        const relative = rotatedIndex - displayRadius;
+        return {
+          index: 0,
+          key: `single-${index}`,
+          tab: tabs[0],
+          relative,
+          clampedOffset: relative,
+          isActive: relative === 0,
+          isDistant: false,
+          isClone: relative !== 0,
+        };
+      });
+    }
 
-    const isMobile = window.matchMedia("(max-width: 720px)").matches;
-    if (!isMobile) return;
-
-    activeButton.scrollIntoView({
-      behavior: "smooth",
-      block: "nearest",
-      inline: "nearest",
+    return tabs.map((tab, index) => {
+      let relative = (index - active + tabs.length) % tabs.length;
+      if (relative > tabs.length / 2) {
+        relative -= tabs.length;
+      }
+      const clampedOffset = Math.max(-displayRadius, Math.min(displayRadius, relative));
+      return {
+        index,
+        key: index,
+        tab,
+        relative,
+        clampedOffset,
+        isActive: relative === 0,
+        isDistant: Math.abs(relative) > displayRadius,
+        isClone: false,
+      };
     });
-  }, [active, tabs.length]);
+  }, [active, displayRadius, loopOffset, tabs, visibleCount]);
 
+  const rotatePrev = () => {
+    if (!tabs.length) return;
+    if (onRotate) {
+      onRotate(-1);
+      return;
+    }
+    setActive((current) => (current - 1 + tabs.length) % tabs.length);
+  };
+
+  const rotateNext = () => {
+    if (!tabs.length) return;
+    if (onRotate) {
+      onRotate(1);
+      return;
+    }
+    setActive((current) => (current + 1) % tabs.length);
+  };
 
   return (
-
-    <div
-      ref={containerRef}
-      className="folder-tabs"
-      role="tablist"
-      aria-label={`${title} tabs`}
-    >
-     
-    
-    <div
-        ref={arrowRef}
-        className="tab-arrow"
-        aria-hidden="true"
-        style={{ transform: `translateY(${arrowY}px)` }}
+    <div className="folder-tabs">
+      <button
+        type="button"
+        className="tab-nav retro-tab"
+        onClick={rotatePrev}
+        aria-label={`Previous ${title} item`}
       >
-        &gt;
+        {isMobile ? "[ < ]" : "[ ^ ]"}
+      </button>
+
+      <div className="tab-window" role="tablist" aria-label={`${title} tabs`}>
+        {displayedTabs.map(
+          ({ index, key, tab, relative, clampedOffset, isActive: current, isDistant, isClone }) => {
+          return (
+            <button
+              key={key}
+              className={`folder-tab retro-tab ${current ? "is-active" : ""}`}
+              role="tab"
+              aria-selected={current}
+              aria-controls={isClone ? undefined : `panel-${groupId}-${index}`}
+              id={isClone ? undefined : `tab-${groupId}-${index}`}
+              onClick={() => {
+                if (isClone) {
+                  if (onRotate) onRotate(relative > 0 ? 1 : -1);
+                } else {
+                  setActive(index);
+                }
+              }}
+              type="button"
+              tabIndex={isClone ? -1 : undefined}
+              data-offset={clampedOffset}
+              data-side={relative < 0 ? "before" : relative > 0 ? "after" : "center"}
+              data-distant={isDistant ? "true" : "false"}
+              style={{ "--tab-offset": clampedOffset }}
+            >
+              {"[ " + tab.title + " ]"}
+            </button>
+          );
+        })}
       </div>
 
-      {tabs.map((tab, i) => (
-        <button
-          key={i}
-          ref={el => (btnRefs.current[i] = el)}
-          className={`folder-tab retro-tab ${i === active ? "is-active" : ""}`}
-          role="tab"
-          aria-selected={i === active}
-          aria-controls={`panel-${groupId}-${i}`}
-          id={`tab-${groupId}-${i}`}
-          onClick={() => setActive(i)}
-          type="button"
-        >
-          {"[ " + tab.title + " ]"}
-        </button>
-      ))}
+      <button
+        type="button"
+        className="tab-nav retro-tab"
+        onClick={rotateNext}
+        aria-label={`Next ${title} item`}
+      >
+        {isMobile ? "[ > ]" : "[ v ]"}
+      </button>
     </div>
   );
 }

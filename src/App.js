@@ -1,9 +1,9 @@
 // App.jsx
 import { useState, useMemo, useRef, useEffect, useCallback } from "react";
-import contentsData from "./Contents.json";
+import contentsData from "./Contents";
 import Content from "./Content";
+import Contact from "./Contact";
 import Title from "./title";
-import contactData from "./Contact.json";
 import BackgroundGodHands from "./backgroundGodHands.js";
 import "./styles/tabs.css";
 import "./styles/title.css";
@@ -51,33 +51,6 @@ export default function App() {
     return () => observer.disconnect();
   }, [sections.length]);
 
-  // assumes `contactData` is exactly the array you showed
-const leftList  = (Array.isArray(contactData) ? contactData : []).find(x => x.left)?.left ?? [];
-const rightList = (Array.isArray(contactData) ? contactData : []).find(x => x.right)?.right ?? [];
-
-// helper: build proper hrefs for left/right entries
-const buildHref = (item) => {
-  // left side uses { title, link }
-  if ("link" in item) return item.link;
-
-  // right side uses { title, ref }
-  if ("ref" in item) {
-    // email draft (accepts bare email like "name@domain")
-    if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(item.ref)) {
-      const to = item.ref;
-      const subject = encodeURIComponent("LOVE CONFESSION");
-      const body    = encodeURIComponent("Hi Mack,\n\nI saw your portfolio and wanted to reach out.\n");
-      return `mailto:${to}?subject=${subject}&body=${body}`;
-    }
-    // otherwise treat as file/url (e.g., "files/resume.pdf" or "https://...")
-    return item.ref;
-  }
-
-  // fallback
-  return "#";
-};
-
-
   return (
     <div className="App">
        <BackgroundGodHands rangePx={2700} />
@@ -114,49 +87,14 @@ const buildHref = (item) => {
                   data-index={i}
                   aria-labelledby={`left-tab-${groupId}-${i}`}
                 >
-                  <Content title={section.title} tabs={section.tabs} id={groupId}/>
+                  <Content title={section.title} tabs={section.tabs} />
                 </section>
               );
             })}
           </div>
         </div>
       </section>
-      <nav className="left-tabs" aria-label="Social links">
-        {leftList.map((item, i) => (
-          <a
-            key={`left-${i}`}
-            className="left-tab retro-tab"
-            id={`left-tab-${groupId}-${i}`}
-            href={buildHref(item)}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {`[ ${item.title} ]`}
-          </a>
-        ))}
-      </nav>
-
-      <nav className="right-tabs" aria-label="Contact links">
-        {rightList.map((item, i) => {
-          const href = buildHref(item);
-          const isPdf = typeof item.ref === "string" && /\.pdf(\?|$)/i.test(item.ref);
-          const isMailto = href.startsWith("mailto:");
-
-          return (
-            <a
-              key={`right-${i}`}
-              className="right-tab retro-tab"
-              id={`right-tab-${groupId}-${i}`}
-              href={href}
-              target={isMailto ? undefined : "_blank"}
-              rel={isMailto ? undefined : "noopener noreferrer"}
-              {...(isPdf ? { /* download: "Mack_Thompson_Resume.pdf" */ } : {})}
-            >
-              {`[ ${item.title} ]`}
-            </a>
-          );
-        })}
-      </nav>
+      <Contact />
 <div className="footer"><p>Last Updated 1/23/2026</p></div>
     </div>
   );

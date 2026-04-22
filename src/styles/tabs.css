@@ -14,8 +14,8 @@
 /* The arrow: sits to the left and slides vertically */
 .tab-arrow {
   position: absolute;
-  left: 0;        
-  top: 0; 
+  left: -22px;
+  top: 0;
   display: block;
   font-size: 3rem;
   color: var(--retro-green);           
@@ -86,7 +86,13 @@
 
 /* Mobile footer behavior */
 @media (max-width: 720px) {
-   .tab-arrow { display: none; }
+  .tab-arrow {
+    left: 50%;
+    top: auto;
+    bottom: -6px;
+    font-size: 1.4rem;
+    transform: translateX(-50%);
+  }
   /* optional wrapper if you have one
      .site-footer { margin-top: 2rem; } */
 

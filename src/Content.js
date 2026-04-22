@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import "./styles/tabs.css";
 import FolderTabs from "./FolderTabs.js";
@@ -6,138 +6,525 @@ import FolderTabs from "./FolderTabs.js";
 const slugify = (s = "") =>
   s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
-/* ===== Inline markup helpers ========================================== */
-const INLINE_TOKENS = {
-  b: (key, children) => <strong key={key}>{children}</strong>,
-  i: (key, children) => <em key={key}>{children}</em>,
+const TRANSITION_MS = 560;
+const BUFFER_SIZE = 2;
+const CENTER_INDEX = BUFFER_SIZE;
+const MOBILE_REPEAT_COUNT = 3;
+
+const mod = (value, length) => ((value % length) + length) % length;
+
+const getStep = (previous, next, length) => {
+  if (length <= 1 || previous === next) return { direction: "forward", distance: 0 };
+
+  const forwardDistance = mod(next - previous, length);
+  const backwardDistance = mod(previous - next, length);
+
+  if (forwardDistance <= backwardDistance) {
+    return { direction: "forward", distance: forwardDistance };
+  }
+
+  return { direction: "backward", distance: backwardDistance };
 };
 
-function parseInline(text = "") {
-  let keySeed = 0;
-  function walk(s, startIdx = 0) {
-    const out = [];
-    let i = startIdx;
-    let buffer = "";
-    const flush = () => { if (buffer) { out.push(buffer); buffer = ""; } };
-
-    while (i < s.length) {
-      const ch = s[i];
-      if (ch === "}") { flush(); return { nodes: out, next: i + 1, closed: true }; }
-
-      if (ch === "\\") {
-        const t = s[i + 1];
-        if (INLINE_TOKENS[t] && s[i + 2] === "{") {
-          flush();
-          const inner = walk(s, i + 3);
-          if (!inner.closed) { buffer += s.slice(i, inner.next); i = inner.next; continue; }
-          const nodeKey = `mk-${keySeed++}`;
-          out.push(INLINE_TOKENS[t](nodeKey, inner.nodes));
-          i = inner.next;
-          continue;
-        }
-        buffer += "\\"; i += 1; continue;
-      }
-
-      buffer += ch; i += 1;
-    }
-    flush();
-    return { nodes: out, next: i, closed: false };
-  }
-  return walk(text, 0).nodes;
-}
-/* ===================================================================== */
-
-const Content = ({ title, tabs, id }) => {
+const Content = ({ title, tabs }) => {
   const containerRef = useRef(null);
+  const viewportRef = useRef(null);
+  const mobileScrollerRef = useRef(null);
+  const panelRefs = useRef([]);
+  const panelContentRefs = useRef([]);
+  const measureContentRefs = useRef([]);
+  const resetTimeoutRef = useRef(null);
+  const mobileScrollTimeoutRef = useRef(null);
+  const mobileIsSyncingRef = useRef(false);
+  const mobileIsDraggingRef = useRef(false);
+  const mobileVisualIndexRef = useRef(0);
+  const rotationQueueRef = useRef([]);
+  const rotationActiveRef = useRef(false);
+  const flushRotationRef = useRef(null);
+  const prevLoopOffsetRef = useRef(0);
   const [active, setActive] = useState(0);
+  const [loopOffset, setLoopOffset] = useState(0);
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== "undefined" && window.matchMedia("(max-width: 720px)").matches
+  );
+  const [panelExtent, setPanelExtent] = useState(0);
+  const [viewportWidth, setViewportWidth] = useState(0);
+  const [renderCenter, setRenderCenter] = useState(0);
+  const [trackOffset, setTrackOffset] = useState(CENTER_INDEX);
+  const [isTransitionEnabled, setIsTransitionEnabled] = useState(false);
   const groupId = useMemo(() => slugify(title || "section"), [title]);
+
+  useEffect(() => {
+    if (active < tabs.length) return;
+    setActive(Math.max(0, tabs.length - 1));
+  }, [active, tabs.length]);
+
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 720px)");
+    const sync = (event) => setIsMobile(event.matches);
+
+    sync(media);
+    media.addEventListener("change", sync);
+    return () => media.removeEventListener("change", sync);
+  }, []);
 
   useEffect(() => {
     const root = containerRef.current;
     if (!root) return;
+
     const els = root.querySelectorAll(".fade-in");
     const io = new IntersectionObserver(
-      entries => {
-        entries.forEach(e => {
-          if (e.isIntersecting) {
-            e.target.classList.add("visible");
-            io.unobserve(e.target);
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            io.unobserve(entry.target);
           }
         });
       },
       { threshold: 0.1 }
     );
-    els.forEach(el => io.observe(el));
+
+    els.forEach((el) => io.observe(el));
     return () => io.disconnect();
   }, []);
 
-  const renderPanelBody = (tab, keyPrefix) => (
-    <ul className="paragraphs-list" key={`${keyPrefix}`}>
-      {tab?.paragraphs?.map((b, j) => (
-        <li key={`${keyPrefix}-${j}`} className="paragraph-item">
-          {b.header && (
-            <h4 className="paragraph-header">{parseInline(b.header)}</h4>
-          )}
+  useEffect(() => {
+    const measure = () => {
+      const sizes = measureContentRefs.current
+        .map((node) => node?.offsetHeight || 0)
+        .filter(Boolean);
 
-          {b.paragraph && (
-            <p className="paragraph-text">{parseInline(b.paragraph)}</p>
-          )}
+      setPanelExtent(sizes.length ? Math.max(...sizes) : 0);
+      setViewportWidth(viewportRef.current?.clientWidth || 0);
+    };
 
-          {Array.isArray(b.list) && (
-            <ol className="paragraph-sublist">
-              {b.list.map((item, k) => (
-                <li key={`${keyPrefix}-${j}-${k}`} className="sublist-item">
-                  {parseInline(item)}
-                </li>
-              ))}
-            </ol>
-          )}
+    measure();
 
-          {b.link && (
-            <a
-              href={b.link.link}
-              target={b.link.type === "url" ? "_blank" : "_self"}
-              rel={b.link.type === "url" ? "noopener noreferrer" : undefined}
-              className="link retro-tab"
-            >
-              {">[" + b.link.text + "]"}
-            </a>
-          )}
-        </li>
-      ))}
-    </ul>
-  );
+    const resizeObserver = new ResizeObserver(measure);
+    measureContentRefs.current.forEach((node) => node && resizeObserver.observe(node));
+    if (viewportRef.current) {
+      resizeObserver.observe(viewportRef.current);
+    }
 
-  const activeTab = tabs?.[active];
+    window.addEventListener("resize", measure);
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener("resize", measure);
+    };
+  }, [tabs.length, isMobile, renderCenter]);
+
+  useEffect(() => {
+    if (!tabs.length) {
+      setRenderCenter(0);
+      setTrackOffset(CENTER_INDEX);
+      setIsTransitionEnabled(false);
+      return;
+    }
+
+    if (tabs.length === 1) {
+      if (resetTimeoutRef.current) {
+        clearTimeout(resetTimeoutRef.current);
+        resetTimeoutRef.current = null;
+      }
+
+      const delta = loopOffset - renderCenter;
+      if (delta === 0) return;
+
+      setIsTransitionEnabled(true);
+      setTrackOffset(delta > 0 ? CENTER_INDEX + 1 : CENTER_INDEX - 1);
+
+      resetTimeoutRef.current = setTimeout(() => {
+        setIsTransitionEnabled(false);
+        setRenderCenter(loopOffset);
+        setTrackOffset(CENTER_INDEX);
+        resetTimeoutRef.current = null;
+      }, TRANSITION_MS);
+      return;
+    }
+
+    if (resetTimeoutRef.current) {
+      clearTimeout(resetTimeoutRef.current);
+      resetTimeoutRef.current = null;
+    }
+
+    const { direction, distance } = getStep(renderCenter, active, tabs.length);
+
+    if (distance === 0) return;
+
+    if (distance > 1) {
+      setIsTransitionEnabled(false);
+      setRenderCenter(active);
+      setTrackOffset(CENTER_INDEX);
+      return;
+    }
+
+    setIsTransitionEnabled(true);
+    setTrackOffset(direction === "forward" ? CENTER_INDEX + 1 : CENTER_INDEX - 1);
+
+    resetTimeoutRef.current = setTimeout(() => {
+      setIsTransitionEnabled(false);
+      setRenderCenter(active);
+      setTrackOffset(CENTER_INDEX);
+      resetTimeoutRef.current = null;
+    }, TRANSITION_MS);
+  }, [active, loopOffset, renderCenter, tabs.length]);
+
+  useEffect(() => {
+    if (!isTransitionEnabled && trackOffset === CENTER_INDEX) {
+      const raf = requestAnimationFrame(() => setIsTransitionEnabled(true));
+      return () => cancelAnimationFrame(raf);
+    }
+    return undefined;
+  }, [isTransitionEnabled, trackOffset]);
+
+  useEffect(() => {
+    return () => {
+      if (resetTimeoutRef.current) {
+        clearTimeout(resetTimeoutRef.current);
+      }
+      if (mobileScrollTimeoutRef.current) {
+        clearTimeout(mobileScrollTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const renderedPanels = useMemo(() => {
+    if (!tabs.length) return [];
+
+    return Array.from({ length: BUFFER_SIZE * 2 + 1 }, (_, index) => {
+      const offset = index - CENTER_INDEX;
+      const actualIndex = mod(renderCenter + offset, tabs.length);
+      return {
+        actualIndex,
+        offset,
+        tab: tabs[actualIndex],
+      };
+    });
+  }, [renderCenter, tabs]);
+
+  const mobilePanels = useMemo(() => {
+    if (!tabs.length) return [];
+    return Array.from({ length: tabs.length * MOBILE_REPEAT_COUNT }, (_, index) => ({
+      renderIndex: index,
+      actualIndex: mod(index, tabs.length),
+      tab: tabs[mod(index, tabs.length)],
+    }));
+  }, [tabs]);
+
+  const panelBuffer = isMobile ? 64 : 220;
+  const panelViewportExtent = panelExtent > 0 ? panelExtent + panelBuffer : 0;
+  const stride = isMobile ? viewportWidth : panelViewportExtent;
+  const trackTransform = stride
+    ? isMobile
+      ? `translate3d(-${trackOffset * stride}px, 0, 0)`
+      : `translate3d(0, -${trackOffset * stride}px, 0)`
+    : "translate3d(0, 0, 0)";
+
+  const viewportStyle = panelViewportExtent > 0 ? { height: `${panelViewportExtent}px` } : undefined;
+  const panelStyle =
+    panelViewportExtent > 0 || viewportWidth > 0
+      ? {
+          height: panelViewportExtent > 0 ? `${panelViewportExtent}px` : undefined,
+          width: isMobile && viewportWidth > 0 ? `${viewportWidth}px` : undefined,
+        }
+      : undefined;
+
+  // Always-fresh flush so setTimeout callbacks never see stale tabs.length / isMobile.
+  flushRotationRef.current = () => {
+    if (rotationActiveRef.current || !rotationQueueRef.current.length) return;
+    const d = rotationQueueRef.current.shift();
+    rotationActiveRef.current = true;
+    if (tabs.length === 1) {
+      setLoopOffset((prev) => prev + d);
+    } else {
+      setActive((prev) => mod(prev + d, tabs.length));
+    }
+    window.setTimeout(() => {
+      rotationActiveRef.current = false;
+      flushRotationRef.current?.();
+    }, isMobile ? 260 : TRANSITION_MS + 60);
+  };
+
+  const handleRotate = (delta) => {
+    if (!tabs.length) return;
+    if (rotationQueueRef.current.length < 3) rotationQueueRef.current.push(delta);
+    flushRotationRef.current?.();
+  };
+
+  const handleSelect = (nextIndex) => {
+    if (!tabs.length || tabs.length === 1) return;
+    setActive(nextIndex);
+  };
+
+  // Single-tab mobile animation: fires only when loopOffset changes.
+  // Deliberately excludes renderCenter so the desktop catch-up timer (560ms later)
+  // does NOT re-trigger a second animation.
+  useEffect(() => {
+    if (!isMobile || !mobileScrollerRef.current || !viewportWidth || tabs.length !== 1) return;
+
+    const prev = prevLoopOffsetRef.current;
+    prevLoopOffsetRef.current = loopOffset;
+    if (loopOffset === prev) return;
+
+    const scroller = mobileScrollerRef.current;
+    const direction = loopOffset > prev ? "forward" : "backward";
+    const targetVisualIndex = mobileVisualIndexRef.current + (direction === "forward" ? 1 : -1);
+    const targetLeft = targetVisualIndex * viewportWidth;
+
+    if (Math.abs(scroller.scrollLeft - targetLeft) < 2) return;
+
+    mobileIsSyncingRef.current = true;
+    mobileVisualIndexRef.current = targetVisualIndex;
+    scroller.classList.add("no-snap");
+    scroller.scrollTo({ left: targetLeft, behavior: "smooth" });
+
+    const centeredVisualIndex = tabs.length; // actualIndex=0, so 0 + tabs.length = 1
+
+    let done = false;
+    const finalize = () => {
+      if (done) return;
+      done = true;
+      if (mobileVisualIndexRef.current !== centeredVisualIndex) {
+        scroller.scrollLeft = centeredVisualIndex * viewportWidth;
+        mobileVisualIndexRef.current = centeredVisualIndex;
+      }
+      mobileIsSyncingRef.current = false;
+      scroller.classList.remove("no-snap");
+    };
+
+    const timeout = window.setTimeout(finalize, 350);
+    return () => { window.clearTimeout(timeout); finalize(); };
+  }, [isMobile, loopOffset, tabs.length, viewportWidth]);
+
+  // Multi-tab mobile animation: fires when active tab changes.
+  useEffect(() => {
+    if (!isMobile || !mobileScrollerRef.current || !viewportWidth || tabs.length <= 1) return;
+
+    const scroller = mobileScrollerRef.current;
+    const currentActualIndex = mod(mobileVisualIndexRef.current, tabs.length);
+    const { direction, distance } = getStep(currentActualIndex, active, tabs.length);
+
+    if (distance === 0) return;
+
+    if (distance > 1) {
+      const centeredIndex = active + tabs.length;
+      mobileIsSyncingRef.current = true;
+      scroller.scrollLeft = centeredIndex * viewportWidth;
+      mobileVisualIndexRef.current = centeredIndex;
+      window.setTimeout(() => { mobileIsSyncingRef.current = false; }, 60);
+      return;
+    }
+
+    const targetVisualIndex = mobileVisualIndexRef.current + (direction === "forward" ? 1 : -1);
+    const targetLeft = targetVisualIndex * viewportWidth;
+
+    if (Math.abs(scroller.scrollLeft - targetLeft) < 2) return;
+
+    mobileIsSyncingRef.current = true;
+    mobileVisualIndexRef.current = targetVisualIndex;
+    scroller.classList.add("no-snap");
+    scroller.scrollTo({ left: targetLeft, behavior: "smooth" });
+
+    const centeredVisualIndex = active + tabs.length;
+
+    let done = false;
+    const finalize = () => {
+      if (done) return;
+      done = true;
+      // Only reposition if we landed on a repeat-buffer edge (content is identical, jump invisible).
+      if (mobileVisualIndexRef.current !== centeredVisualIndex) {
+        scroller.scrollLeft = centeredVisualIndex * viewportWidth;
+        mobileVisualIndexRef.current = centeredVisualIndex;
+      }
+      mobileIsSyncingRef.current = false;
+      scroller.classList.remove("no-snap");
+    };
+
+    const timeout = window.setTimeout(finalize, 350);
+    return () => { window.clearTimeout(timeout); finalize(); };
+  }, [active, isMobile, tabs.length, viewportWidth]);
+
+  // Re-centre the mobile strip on layout changes (viewport resize, tab count change).
+  // Not re-run on every active update to avoid killing in-progress scroll animations.
+  useEffect(() => {
+    if (!isMobile || !mobileScrollerRef.current || !viewportWidth || !tabs.length) return;
+
+    const centeredVisualIndex = (tabs.length === 1 ? 0 : active) + tabs.length;
+    mobileIsSyncingRef.current = true;
+    mobileScrollerRef.current.scrollLeft = centeredVisualIndex * viewportWidth;
+    mobileVisualIndexRef.current = centeredVisualIndex;
+
+    const timeout = window.setTimeout(() => {
+      mobileIsSyncingRef.current = false;
+    }, 60);
+
+    return () => window.clearTimeout(timeout);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMobile, tabs.length, viewportWidth]);
+
+  const handleMobileScroll = (event) => {
+    if (!isMobile || !viewportWidth || !tabs.length || mobileIsSyncingRef.current) return;
+    // Ignore scroll events during an active drag; only process snap-settle events.
+    if (mobileIsDraggingRef.current) return;
+
+    if (mobileScrollTimeoutRef.current) {
+      clearTimeout(mobileScrollTimeoutRef.current);
+    }
+
+    const scroller = event.currentTarget;
+
+    // Read position inside the timeout so we always capture the fully-settled snap position.
+    mobileScrollTimeoutRef.current = setTimeout(() => {
+      if (mobileIsDraggingRef.current) return;
+
+      const rawIndex = Math.round(scroller.scrollLeft / viewportWidth);
+      const actualIndex = mod(rawIndex, tabs.length);
+      const centeredIndex = actualIndex + tabs.length;
+
+      mobileIsSyncingRef.current = true;
+      setActive((current) => (current === actualIndex ? current : actualIndex));
+      scroller.scrollLeft = centeredIndex * viewportWidth;
+      mobileVisualIndexRef.current = centeredIndex;
+
+      window.setTimeout(() => {
+        mobileIsSyncingRef.current = false;
+      }, 60);
+    }, 160);
+  };
+
+  const handleMobileDragStart = () => {
+    mobileIsDraggingRef.current = true;
+    if (mobileScrollTimeoutRef.current) {
+      clearTimeout(mobileScrollTimeoutRef.current);
+      mobileScrollTimeoutRef.current = null;
+    }
+  };
+
+  // On drag end, just clear the dragging flag. CSS snap handles settling;
+  // handleMobileScroll's debounce fires after snap completes and does an
+  // instant (invisible) reposition back to the middle repeat copy.
+  const handleMobileDragEnd = () => {
+    mobileIsDraggingRef.current = false;
+  };
 
   return (
     <section ref={containerRef} className="folder">
-      <FolderTabs
-        title={title}
-        tabs={tabs}
-        active={active}
-        setActive={setActive}
-        groupId={groupId}
-      />
-      <div className="folder-content">
+      <div className="folder-stage">
         <div className="title">{title}</div>
+        <div className="folder-body">
+          <FolderTabs
+            title={title}
+            tabs={tabs}
+            active={active}
+            setActive={handleSelect}
+            onRotate={handleRotate}
+            groupId={groupId}
+            loopOffset={loopOffset}
+          />
 
-        {activeTab && (
-          <div className="folder-panel-stack">
-            {tabs.map((tab, i) => (
-            <div
-              key={`panel-${i}`}
-              className={`folder-panel ${i === active ? "is-active" : "is-hidden"}`}
-              role="tabpanel"
-              id={`panel-${groupId}-${i}`}
-              aria-labelledby={`tab-${groupId}-${i}`}
-              aria-hidden={i === active ? undefined : true}
-            >
-              {renderPanelBody(tab, `plist-${i}`)}
-            </div>
+          <div className="folder-panel-measurements" aria-hidden="true">
+            {tabs.map((tab, index) => (
+              <div
+                key={`measure-${groupId}-${index}`}
+                ref={(node) => {
+                  measureContentRefs.current[index] = node;
+                }}
+                className="folder-panel-inner"
+              >
+                {tab.body}
+              </div>
             ))}
           </div>
-        )}
+
+          {isMobile ? (
+            <div
+              ref={viewportRef}
+              className="folder-panel-viewport is-horizontal"
+              style={viewportStyle}
+            >
+              <div
+                ref={mobileScrollerRef}
+                className="folder-panel-scroller is-horizontal"
+                onScroll={handleMobileScroll}
+                onTouchStart={handleMobileDragStart}
+                onTouchEnd={handleMobileDragEnd}
+                onTouchCancel={handleMobileDragEnd}
+                onPointerDown={handleMobileDragStart}
+                onPointerUp={handleMobileDragEnd}
+                onPointerCancel={handleMobileDragEnd}
+              >
+                {mobilePanels.map(({ tab, actualIndex, renderIndex }) => (
+                  <div
+                    key={`${groupId}-mobile-${renderIndex}`}
+                    className="folder-track-panel is-mobile-scroll"
+                    style={panelStyle}
+                    role="tabpanel"
+                    id={`panel-${groupId}-${actualIndex}`}
+                    aria-labelledby={`tab-${groupId}-${actualIndex}`}
+                    aria-hidden={actualIndex === active ? undefined : true}
+                  >
+                    <div className="folder-panel">
+                      <div
+                        ref={(node) => {
+                          panelContentRefs.current[actualIndex] = node;
+                        }}
+                        className="folder-panel-inner"
+                      >
+                        {tab.body}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            !!renderedPanels.length && (
+            <div
+              ref={viewportRef}
+              className="folder-panel-viewport is-vertical"
+              style={viewportStyle}
+            >
+              <div
+                className={`folder-panel-track is-vertical ${
+                  isTransitionEnabled ? "is-animated" : "is-static"
+                }`}
+                style={{ transform: trackTransform }}
+              >
+                {renderedPanels.map(({ actualIndex, tab, offset }, index) => {
+                  const panelId = offset === 0 ? `panel-${groupId}-${actualIndex}` : undefined;
+
+                  return (
+                    <div
+                      key={`${actualIndex}-${renderCenter}-${offset}`}
+                      ref={(node) => {
+                        panelRefs.current[index] = node;
+                      }}
+                      className="folder-track-panel"
+                      style={panelStyle}
+                      role="tabpanel"
+                      id={panelId}
+                      aria-labelledby={panelId ? `tab-${groupId}-${actualIndex}` : undefined}
+                      aria-hidden={actualIndex === active ? undefined : true}
+                    >
+                      <div className="folder-panel">
+                        <div
+                          ref={(node) => {
+                            panelContentRefs.current[index] = node;
+                          }}
+                          className="folder-panel-inner"
+                        >
+                          {tab.body}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            )
+          )}
+        </div>
       </div>
     </section>
   );
@@ -148,22 +535,7 @@ Content.propTypes = {
   tabs: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string.isRequired,
-      paragraphs: PropTypes.arrayOf(
-        PropTypes.shape({
-          header: PropTypes.string,
-          paragraph: PropTypes.string,
-          list: PropTypes.arrayOf(PropTypes.string),
-          link: PropTypes.shape({
-            type: PropTypes.oneOf(["url", "doc"]).isRequired,
-            text: PropTypes.string.isRequired,
-            link: PropTypes.string.isRequired,
-          }),
-        })
-      ),
-      media: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        caption: PropTypes.string,
-      }),
+      body: PropTypes.node.isRequired,
     })
   ).isRequired,
 };
