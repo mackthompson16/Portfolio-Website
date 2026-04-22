@@ -1,0 +1,26 @@
+Wellness Manifest Management
+This is simplified. Less moving parts + easier to manage. 
+Overview
+OCV would like to streamline the process of managing wellness app manifests as updates and new features are introduced. At present, each wellness application under OCV’s umbrella requires manual modification of its manifest whenever shared functionality is added or changed. This process is repetitive, time-consuming, and prone to human error, increasing the likelihood of deployment issues, inconsistencies across apps, and unnecessary maintenance overhead.
+This project proposes a simplified approach in which manifest composition is handled locally within the mobile codebase rather than through a hosted API. By introducing a master-manifest reference system and a local merge script, OCV can reduce redundancy across manifests, improve maintainability, and ensure that shared updates can be propagated more efficiently across wellness applications.
+Requirements
+The system should support local manifest composition within the mobile application codebase. Rather than relying on AWS services or a separate backend API, the merge process will occur at runtime when the application loads its manifest.
+The primary function of this system is the reliable retrieval and composition of manifest data from a local app manifest and a referenced master manifest. Specifically, the tool must:
+Manifest Reference Check
+At the application entry point, the system should inspect the loaded manifest and determine whether a root.master field exists. This field will indicate whether the manifest depends on a shared master manifest.
+Master Manifest Retrieval
+If root.master exists, the application should fetch the referenced master manifest from the CDN location specified by that field. This referenced manifest will serve as the shared base configuration for the app.
+Manifest Merge Logic
+The local merge script, stored directly in the mobile codebase, should merge the app-specific manifest overlay with the fetched master manifest. This process should preserve the shared structure from the master manifest while allowing the app-specific manifest to override or extend values as needed.
+In effect, the runtime behavior should follow the pattern:
+merge(manifest, fetch(root.master))
+If no root.master field is present, the manifest should be treated as standalone and loaded without merge behavior.
+Manifest Delivery to the App
+The final merged manifest should be returned directly to the mobile application runtime for use during app initialization. This approach should minimize integration complexity while preserving flexibility for future updates to the shared master structure.
+Deliverables
+Working proof of concept implemented locally in the mobile codebase, including:
+a local merge script
+runtime check for root.master
+retrieval of the master manifest from CDN
+successful composition of master and overlay manifests during app load
+
