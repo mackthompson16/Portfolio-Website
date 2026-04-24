@@ -45,7 +45,7 @@ const contents = [
             <section className="paragraph-item">
               <h4 className="paragraph-header">Cloud Engineering Intern</h4>
               <p className="paragraph-text">
-                <strong>Summer 2026.</strong>
+                <span className="date-stamp">Summer 2026 | Sunnyvale, CA</span>
               </p>
               <p className="paragraph-text">I'm gonna be in <strong>SILICON VALLEY BABY</strong> doing Cloud migration work/networking on the Juniper Campus.</p>
             </section>
@@ -59,10 +59,11 @@ const contents = [
             <section className="paragraph-item">
               <h4 className="paragraph-header">AI Intern</h4>
               <p className="paragraph-text">
-                <strong>Fall 2026.</strong>
+                <span className="date-stamp">Fall 2026 | Atlanta, GA</span>
               </p>
-              <p className="paragraph-text">ML for energy systems. Super excited for this one
-                 because I'll be working directly with the <strong>Chief of IT for Southern</strong> and living back at <strong>home in ATL</strong>.</p>
+              <p className="paragraph-text">Super excited for this one
+                 because I'll be working directly with the <strong>Chief of IT </strong> on AI for energy/cyber, and living at <strong> home in ATL.</strong>
+              </p>
             </section>
           </div>
         ),
@@ -74,12 +75,15 @@ const contents = [
             <section className="paragraph-item">
               <h4 className="paragraph-header">Manifest Merge System</h4>
               <p className="paragraph-text">
-                This was a fun internship. I spent 6 months here and <strong>solved problems that I found myself</strong>. The main thing I did was build a shared config system for <strong>40+ apps</strong>.
+                <span className="date-stamp">Sep 2025 - Present | Opelika, AL</span>
+              </p>
+              <p className="paragraph-text">
+                I spent 6 months here and <strong>solved problems that I found myself</strong>. The main thing I did was build a shared config system for <strong>40+ apps</strong>.
               </p>
               <ol className="paragraph-sublist">
-                <li className="sublist-item">Pull shared config</li>
-                <li className="sublist-item">Merge app overrides</li>
-                <li className="sublist-item">Update once, ship everywhere</li>
+                <li className="sublist-item">+ Pull shared config (80% shared)</li>
+                <li className="sublist-item">+ Merge app-specific configurations</li>
+                <li className="sublist-item">+ Update once, ship everywhere</li>
               </ol>
               <p className="paragraph-text">
                 About <strong>80% less update overhead</strong>.
@@ -95,11 +99,14 @@ const contents = [
             <section className="paragraph-item">
               <h4 className="paragraph-header">Automation</h4>
               <p className="paragraph-text">
-                Was assigned just basic CI/CD test automation stuff. <strong>First internship, nothing crazy</strong>. But I found a way to <strong>significantly improve</strong> this process, so <strong>I led a team</strong>. We built a dev tool for editing tests without restarting the whole flow; runtime re-compilation.
+                <span className="date-stamp">May 2025 - Aug 2025 | Alpharetta, GA</span>
+              </p>
+              <p className="paragraph-text">
+                Basic CI/CD test automation stuff; <strong>first internship, nothing crazy</strong>. But I found a way to <strong>significantly improve</strong> this process, so <strong>I led a team</strong>. We built a dev tool for editing tests without restarting the whole flow; runtime re-compilation.
               </p>
               <ol className="paragraph-sublist">
-                <li className="sublist-item"><strong>30%</strong> faster creation for my entire team</li>
-                <li className="sublist-item"><strong>20+</strong> Azure DevOps workflows by the end of the summer</li>
+                <li className="sublist-item">+ <strong>30%</strong> faster creation for my entire team</li>
+                <li className="sublist-item">+ <strong>20+</strong> Azure DevOps workflows by the end of the summer</li>
               </ol>
             </section>
           </div>
@@ -112,11 +119,14 @@ const contents = [
             <section className="paragraph-item">
               <h4 className="paragraph-header">CV Bias Analysis</h4>
               <p className="paragraph-text">
-                I did other stuff while in this lab but mainly I worked on <strong>CV metrics / dataset construction</strong>. Built a cleaned <strong>5k+ image</strong> dermatology set.
-                I ended up presenting this at <strong>TAPIA</strong> that year.
+                <span className="date-stamp">Feb 2025 - Sep 2025 | Auburn, AL</span>
               </p>
               <p className="paragraph-text">
-                Found <strong>skin-tone bias</strong> in EfficientNet-B0.
+                While I did other stuff while in this lab, I mainly worked on <strong>CV metrics / dataset construction</strong>. Ended up building a <strong> ~5k image</strong> dermatology set, and
+                found <strong>skin-tone bias</strong> in EfficientNet-B0.  
+              </p>
+              <p className="paragraph-text">
+                 I ended up presenting this at <strong>TAPIA</strong> that year.
               </p>
               <a href="files/poster.pdf" className="link retro-tab">
                 &gt;[Research Poster]
@@ -132,16 +142,19 @@ const contents = [
             <section className="paragraph-item">
               <h4 className="paragraph-header">Founder</h4>
               <p className="paragraph-text">
-                This is my <strong>favorite experience</strong> by far.
-                Started in HS and scaled up every year.
-                I recruited all my friends and ended up handing it off to <strong>past campers and my lil bro</strong>.
+                <span className="date-stamp">Jun 2021 - Dec 2024 | Atlanta, GA</span>
+              </p>
+              <p className="paragraph-text">
+                This is my <strong>favorite experience</strong>.
+                It started in HS and scaled up every year.
+                I recruited my friends, eventually handing it off to <strong>past campers and my lil bro</strong>.
                  Wish I could do this forever but <strong>I'm a big adult man now</strong>. 
-                Also built an email bot to handle parent questions to apply CS somehow. 
+                I also built an email bot to handle parent questions. 
               </p>
               <ol className="paragraph-sublist">
-                <li className="sublist-item"><strong>150+ camp spots a summer</strong></li>
-                <li className="sublist-item"><strong>$100K+</strong> profit</li>
-                <li className="sublist-item">Bot handled <strong>75%</strong> of parent questions</li>
+                <li className="sublist-item">+ <strong>150+ camp spots</strong></li>
+                <li className="sublist-item">+ <strong>$100K+</strong> profit</li>
+                <li className="sublist-item">+ Employed <strong>7+</strong> people per summer</li>
               </ol>
               <a
                 href="https://youtu.be/GKlthhpZl3U?si=zdTVYFM-E3fBfxow"
@@ -152,16 +165,7 @@ const contents = [
                 &gt;[Camp Movie]
               </a>
             </section>
-            <section className="paragraph-item">
-              <a
-                href="https://instagram.com/BWH_Sports_Camp"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="link retro-tab"
-              >
-                &gt;[Camp Instagram]
-              </a>
-            </section>
+          
           </div>
         ),
       },
@@ -180,10 +184,10 @@ const contents = [
                 This one was fun because it was <strong>real</strong>. I collabed with <strong>the founder</strong> and rebuilt the site around <strong>how people actually shop</strong>.
               </p>
               <ol className="paragraph-sublist">
-                <li className="sublist-item"><strong>25%</strong> more traffic</li>
-                <li className="sublist-item"><strong>DIY jewelry builder</strong></li>
-                <li className="sublist-item">Better search visibility</li>
-                <li className="sublist-item">Email flows</li>
+                <li className="sublist-item">+ <strong>25%</strong> more traffic</li>
+                <li className="sublist-item">+ <strong>DIY jewelry builder</strong></li>
+                <li className="sublist-item">+ Better search visibility</li>
+                <li className="sublist-item">+ Email flows</li>
               </ol>
               <p className="paragraph-text">
                 The custom builder became the top seller and made <strong>$4K in 30 days</strong>.
@@ -210,9 +214,9 @@ const contents = [
                 I wanted to see how well I could <strong>model + predict geopolitical cycles</strong>. I built this using Ray Dalio's metrics for empire strength.
               </p>
               <ol className="paragraph-sublist">
-                <li className="sublist-item"><strong>8</strong> empire metrics</li>
-                <li className="sublist-item"><strong>200+ years</strong> of macro data</li>
-                <li className="sublist-item"><strong>~60%</strong> directional accuracy</li>
+                <li className="sublist-item">+ <strong>8</strong> empire metrics</li>
+                <li className="sublist-item">+ <strong>200+ years</strong> of macro data</li>
+                <li className="sublist-item">+ <strong>~60%</strong> directional accuracy</li>
               </ol>
               <p className="paragraph-text">
                 It kind of works. Still a <strong>very hard problem</strong>. 
@@ -238,9 +242,9 @@ const contents = [
               <p className="paragraph-text">
                 The capstone project for my business minor was an <strong>underwater AI lifeguard</strong> in collab with the university facilities.</p>
                  <ol className="paragraph-sublist">
-                  <li className="sublist-item">water-proof <strong>multiplexing</strong> pipeline</li>
-                  <li className="sublist-item"><strong>3D model</strong> attached to the pool lights</li>
-                  <li className="sublist-item"><strong>Computer vision</strong> system to detect swimmers in distress</li>
+                  <li className="sublist-item">+ water-proof <strong>multiplexing</strong> pipeline</li>
+                  <li className="sublist-item">+ <strong>3D model</strong> attached to the pool lights</li>
+                  <li className="sublist-item">+ <strong>Computer vision</strong> system to detect swimmers in distress</li>
                </ol>
                <p className="paragraph-text">Was pretty cool to work with <strong>electrical people</strong> and see the blueprints/infrastrutuce behind the facility.</p>
             </section>
@@ -257,9 +261,9 @@ const contents = [
                 I made this for my sports camp because I was tired of answering the <strong>same parent emails</strong> over and over.
               </p>
               <ol className="paragraph-sublist">
-                <li className="sublist-item"><strong>Google Cloud VM</strong></li>
-                <li className="sublist-item">Gmail + Pub/Sub trigger</li>
-                <li className="sublist-item">Confidence check before send</li>
+                <li className="sublist-item">+ <strong>Google Cloud VM</strong></li>
+                <li className="sublist-item">+ Gmail + Pub/Sub trigger</li>
+                <li className="sublist-item">+ Confidence check before send</li>
               </ol>
               <p className="paragraph-text">
                 It handled about <strong>75%</strong> of parent emails.
@@ -288,9 +292,9 @@ const contents = [
     
               </p>
               <ol className="paragraph-sublist">
-                <li className="sublist-item"><strong>React + Node + Postgres</strong></li>
-                <li className="sublist-item">WebSockets for live updates</li>
-                <li className="sublist-item"><strong>AI scheduling agent</strong></li>
+                <li className="sublist-item">+ <strong>React + Node + Postgres</strong></li>
+                <li className="sublist-item">+ WebSockets for live updates</li>
+                <li className="sublist-item">+ <strong>AI scheduling agent</strong></li>
               </ol>
               <a
                 href="https://github.com/mackthompson16/cf_ai_Social-Platform"
@@ -315,9 +319,9 @@ const contents = [
                 I also think all <strong>TECH PEOPLE ARE PHILOSOPHERS</strong> suddenly. AI doom is no joke.
               </p>
               <ol className="paragraph-sublist">
-                <li className="sublist-item">Observable universe</li>
-                <li className="sublist-item">Divine framework</li>
-                <li className="sublist-item">Search for self</li>
+                <li className="sublist-item">+ Observable universe</li>
+                <li className="sublist-item">+ Divine framework</li>
+                <li className="sublist-item">+ Search for self</li>
               </ol>
               <a href="files/conscious_disease.pdf" className="link retro-tab">
                 &gt;[Read It]

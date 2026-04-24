@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import "./styles/title.css";
 
 export default function Header() {
-  // Desktop art
   const SRC = useMemo(
     () =>
       String.raw`
@@ -23,7 +22,6 @@ o8o        o888o  Y888""8o  Y8bod8P' o888o o888o          o888o     o888o o888o 
     []
   );
 
-  // Mobile art
   const Mobile_SRC = useMemo(
     () =>
       String.raw`
@@ -42,7 +40,6 @@ o8o        o888o  Y888""8o  Y8bod8P' o888o o888o Y8P
     []
   );
 
-  // Pick source based on viewport
   const [isMobile, setIsMobile] = useState(false);
   const [src, setSrc] = useState(SRC);
 
@@ -55,27 +52,21 @@ o8o        o888o  Y888""8o  Y8bod8P' o888o o888o Y8P
       setSrc(matches ? Mobile_SRC : SRC);
     };
 
-    // Initial
     apply(mq.matches);
 
-    // Listen for viewport changes
     const handler = (e) => apply(e.matches);
-    mq.addEventListener ? mq.addEventListener("change", handler)
-                        : mq.addListener(handler); // Safari < 14
+    mq.addEventListener ? mq.addEventListener("change", handler) : mq.addListener(handler);
 
     return () => {
-      mq.removeEventListener ? mq.removeEventListener("change", handler)
-                              : mq.removeListener(handler);
+      mq.removeEventListener ? mq.removeEventListener("change", handler) : mq.removeListener(handler);
     };
   }, [SRC, Mobile_SRC]);
 
-  // Build grid from the chosen source
-  const grid = useMemo(() => src.split("\n").map(line => Array.from(line)), [src]);
+  const grid = useMemo(() => src.split("\n").map((line) => Array.from(line)), [src]);
 
-  // Distances (use a slightly different xScale on mobile if you like)
   const distances = useMemo(() => {
     const rows = grid.length;
-    const cols = Math.max(...grid.map(r => r.length));
+    const cols = Math.max(...grid.map((r) => r.length));
     const xScale = isMobile ? 0.65 : 0.75;
     const dist = Array.from({ length: rows }, () => new Array(cols).fill(0));
     for (let r = 0; r < rows; r++) {
@@ -86,43 +77,38 @@ o8o        o888o  Y888""8o  Y8bod8P' o888o o888o Y8P
     return dist;
   }, [grid, isMobile]);
 
-  // Animation config
   const SPEED = 22;
   const RING_THICKNESS = 2.8;
   const GLITCH_MS = 140;
 
-  // Helpers
   const encode = (ch) =>
     ch === " " ? "&nbsp;" :
     ch === "<" ? "&lt;" :
     ch === ">" ? "&gt;" :
     ch === "&" ? "&amp;" : ch;
 
-const asciiSwap = useMemo(() => ({
-  ".": "*", "-": "=", "_": "-", '"': "'", "'": "`", "`": "'",
-  "~": "^", "!": "1", "?": "7", ":": ";", ";": ":",
-  "(": "[", ")": "]", "[": "(", "]": ")", "{": "(", "}": ")",
-  "/": "\\", "\\": "/", "|": "!", "+": "*", "*": "+", "=": "-",
-  "<": ">", ">": "<", "#": "%", "$": "S", "%": "#", "&": "@", "@": "&",
-  ",": ".", "^": "~"
-}), []);
+  const asciiSwap = useMemo(() => ({
+    ".": "*", "-": "=", "_": "-", '"': "'", "'": "`", "`": "'",
+    "~": "^", "!": "1", "?": "7", ":": ";", ";": ":",
+    "(": "[", ")": "]", "[": "(", "]": ")", "{": "(", "}": ")",
+    "/": "\\", "\\": "/", "|": "!", "+": "*", "*": "+", "=": "-",
+    "<": ">", ">": "<", "#": "%", "$": "S", "%": "#", "&": "@", "@": "&",
+    ",": ".", "^": "~",
+  }), []);
 
+  const bitFlip = useCallback((ch) => {
+    if (ch === " ") return ".";
+    const code = ch.charCodeAt(0);
+    if ((code >= 65 && code <= 90) || (code >= 97 && code <= 122)) {
+      return String.fromCharCode(code ^ 0x20);
+    }
+    if (code >= 48 && code <= 57) {
+      return String.fromCharCode(48 + ((code - 48 + 5) % 10));
+    }
+    if (asciiSwap[ch]) return asciiSwap[ch];
+    return "#";
+  }, [asciiSwap]);
 
-const bitFlip = useCallback((ch) => {
-  if (ch === " ") return ".";
-  const code = ch.charCodeAt(0);
-  if ((code >= 65 && code <= 90) || (code >= 97 && code <= 122)) {
-    return String.fromCharCode(code ^ 0x20);
-  }
-  if (code >= 48 && code <= 57) {
-    return String.fromCharCode(48 + ((code - 48 + 5) % 10));
-  }
-  if (asciiSwap[ch]) return asciiSwap[ch];
-  return "#";
-}, [asciiSwap]);
-
-
-  // Build DOM as BLANK first
   const hostRef = useRef(null);
 
   useEffect(() => {
@@ -147,7 +133,6 @@ const bitFlip = useCallback((ch) => {
     hostRef.current.innerHTML = html.join("");
   }, [grid, bitFlip]);
 
-  // Animate ripple
   useEffect(() => {
     if (!hostRef.current) return;
 

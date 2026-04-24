@@ -5,6 +5,11 @@ import Content from "./Content";
 import Contact from "./Contact";
 import Title from "./title";
 import BackgroundGodHands from "./backgroundGodHands.js";
+import {
+  getBinaryCharsWithinRadius,
+  splitTextForBinaryHover,
+  restoreBinaryHover,
+} from "./binaryHover";
 import "./styles/tabs.css";
 import "./styles/title.css";
 import "./styles/main.css";
@@ -12,14 +17,23 @@ import "./styles/header.css";
 import"./styles/content.css";
 import "./styles/godHands.css";
 
+const BINARY_FRAME_MS = 72;
+const BINARY_HOVER_RADIUS_PX = 45;
+const STATIC_BINARY_TARGETS = ".header-tab, .left-tab, .right-tab, .footer p";
 const slugify = s =>
   (s || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+
+const HEX_CHARS = "0123456789ABCDEF";
+
+const makeBinaryToken = (source = "") =>
+  HEX_CHARS[Math.floor(Math.random() * HEX_CHARS.length)];
 
 export default function App() {
   const sections = Array.isArray(contentsData) ? contentsData : [];
   const [activeSection, setActiveSection] = useState(0);
   const groupId = useMemo(() => slugify("root-sections"), []);
-  const sectionRefs = useRef([]);             
+  const sectionRefs = useRef([]);
+  const appRef = useRef(null);
   const onSelect = useCallback((i) => {
     const el = sectionRefs.current[i];
     if (!el) return;
@@ -51,9 +65,84 @@ export default function App() {
     return () => observer.disconnect();
   }, [sections.length]);
 
+  useEffect(() => {
+    const root = appRef.current;
+    if (!root) return;
+    if (typeof window !== "undefined" && window.matchMedia("(max-width: 720px)").matches) {
+      restoreBinaryHover(root);
+      return undefined;
+    }
+
+    restoreBinaryHover(root);
+    splitTextForBinaryHover(root, STATIC_BINARY_TARGETS);
+
+    let activeChars = [];
+    let intervalId = null;
+
+    const stopHover = () => {
+      if (intervalId) {
+        window.clearInterval(intervalId);
+        intervalId = null;
+      }
+
+      activeChars.forEach((charNode) => {
+        charNode.textContent = charNode.dataset.char || charNode.textContent;
+      });
+      activeChars = [];
+    };
+
+    const updateActiveChars = (clientX, clientY) => {
+      const nextChars = getBinaryCharsWithinRadius(root, clientX, clientY, BINARY_HOVER_RADIUS_PX);
+      if (
+        activeChars.length === nextChars.length &&
+        activeChars.every((charNode, index) => charNode === nextChars[index])
+      ) {
+        return;
+      }
+
+      stopHover();
+      if (!nextChars.length) return;
+
+      activeChars = nextChars;
+      activeChars.forEach((charNode) => {
+        charNode.textContent = makeBinaryToken(charNode.dataset.char || "");
+      });
+
+      intervalId = window.setInterval(() => {
+        activeChars.forEach((charNode) => {
+          charNode.textContent = makeBinaryToken(charNode.dataset.char || "");
+        });
+      }, BINARY_FRAME_MS);
+    };
+
+    const handlePointerMove = (event) => {
+      updateActiveChars(event.clientX, event.clientY);
+    };
+
+    const handleMouseMove = (event) => {
+      updateActiveChars(event.clientX, event.clientY);
+    };
+
+    const handlePointerLeave = () => {
+      stopHover();
+    };
+
+    window.addEventListener("pointermove", handlePointerMove, { passive: true });
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    window.addEventListener("pointerleave", handlePointerLeave);
+
+    return () => {
+      window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("pointerleave", handlePointerLeave);
+      stopHover();
+      restoreBinaryHover(root);
+    };
+  }, []);
+
   return (
-    <div className="App">
-       <BackgroundGodHands rangePx={2700} />
+    <div ref={appRef} className="App">
+       <BackgroundGodHands />
       <Title />
 
       <section className="main">

@@ -1,6 +1,8 @@
 
 
 .folder {
+  --folder-tabs-width: 220px;
+  --folder-body-gap: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -97,9 +99,9 @@
   justify-content: center;
   align-items: center;
   gap: 10px;
-  min-width: 220px;
+  min-width: var(--folder-tabs-width);
   background: transparent;
-  flex: 0 0 220px;
+  flex: 0 0 var(--folder-tabs-width);
 }
 
 .folder-panel-measurements {
@@ -112,7 +114,7 @@
 }
 
 .folder-panel-measurements .folder-panel-inner {
-  max-width: 60ch;
+  max-width: 68ch;
 }
 
 .folder-panel-viewport {
@@ -253,7 +255,7 @@
 .folder-panel {
   width: 100%;
   min-height: 0;
-  padding: 0;
+  padding: 18px 20px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -265,13 +267,15 @@
 
 .folder-panel-inner {
   width: 100%;
-  max-width: 60ch;
+  max-width: 68ch;
 }
 
 .paragraphs-list {
+  display: grid;
+  gap: 18px;
   font-size: 20px;
   list-style: none;
-  line-height: 1;
+  line-height: 1.45;
   padding: 0;
   width: 100%;
   max-width: 60ch;
@@ -279,10 +283,12 @@
 }
 
 .paragraph-item {
+  padding: 0;
   opacity: 1;
   transform: none;
   animation: none;
   will-change: auto;
+  transition: opacity 220ms ease;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -298,24 +304,83 @@
   text-align: left;
   font-weight: bold;
   color: var(--retro-green);
-  margin: 0 0 8px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 0 0 12px;
 }
 
 .paragraph-text {
-  line-height: 1.15;
-  text-shadow: 0 0 3px var(--retro-glow-light);
-  margin: 0 0 12px;
+  line-height: 1.55;
+  text-shadow: 0 0 2px var(--retro-glow-light);
+  margin: 0 0 14px;
 }
-.paragraph-text strong,.paragraph-sublist strong { font-weight: 700; color: var(--retro-green); }
+.paragraph-text strong,
+.paragraph-sublist strong {
+  position: relative;
+  display: inline;
+  transition:
+    color 180ms ease,
+    text-shadow 180ms ease,
+    background-size 180ms ease;
+}
+
+.paragraph-header,
+.inline-link,
+.link {
+  position: relative;
+  display: inline-block;
+  transition:
+    color 180ms ease,
+    text-shadow 180ms ease,
+    background-size 180ms ease;
+}
+
+.paragraph-text strong,
+.paragraph-sublist strong {
+  font-weight: 700;
+  color: var(--retro-green);
+}
+
+.inline-link:hover,
+.link:hover {
+  color: #eafff0;
+  text-shadow: none;
+}
+
+.date-stamp {
+  display: inline-block;
+  color: white;
+  font-weight: 700;
+}
+
+.binary-hover-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.binary-hover-char {
+  display: inline-block;
+  white-space: pre;
+}
+
 .paragraph-text em     { font-style: italic; color: var(--retro-green-dark); }
 .paragraph-sublist{
-  margin: 0 0 14px 20px;
+  margin: 2px 0 16px 0;
+  padding: 0;
   text-align: left;
-  line-height: 1.1;
+  line-height: 1.3;
+  list-style: none;
+}
+
+.sublist-item {
+  display: block;
+  padding: 0;
+  margin: 0 0 6px;
 }
 
 .link {
   display: inline-block;
+  margin-top: 4px;
   color: white;
   text-decoration: none;
 }
@@ -327,7 +392,8 @@
 }
 .link:hover {
   color: var(--retro-green, #00ff00);
-  text-decoration: none;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
 }
 
 @media (min-width: 721px){
@@ -341,7 +407,11 @@
 
 .folder-panel-viewport {
   flex: 0 1 44vw;
-  width: min(48vw, 66ch);
+  width: min(54vw, 74ch);
+}
+
+.title {
+  margin-left: calc((var(--folder-tabs-width) + 28px) / 2);
 }
 }
 @media (max-width: 720px) {
@@ -363,7 +433,7 @@
   }
 
   .folder-panel-measurements .folder-panel-inner {
-    max-width: min(82vw, 38ch);
+    max-width: min(90vw, 44ch);
   }
 
   .folder-body {
@@ -378,7 +448,7 @@
     max-width: 100%;
     width: 100%;
     min-height: 100%;
-    padding: 0 14px;
+    padding: 0 10px;
     box-sizing: border-box;
     flex-direction: column;
     justify-content: flex-start;
@@ -386,7 +456,7 @@
   }
 
   .folder-panel-inner {
-    max-width: min(82vw, 38ch);
+    max-width: min(90vw, 44ch);
   }
 
   .folder-track-panel {
@@ -417,6 +487,10 @@
   padding: 2px 8px 0;
   flex: 0 0 auto;
 }
+
+  .title {
+    margin-left: 0;
+  }
 
 .tab-window {
   min-height: 0;
@@ -477,6 +551,14 @@
 
   .paragraphs-list {
     max-width: 100%;
+  }
+
+  .paragraph-item {
+    padding: 0;
+  }
+
+  .paragraph-sublist {
+    margin-left: 0;
   }
 
   .tab-nav {
