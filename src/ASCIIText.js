@@ -36,9 +36,9 @@ void main() {
     vec2 pos = vUv;
     
     float move = sin(time + mouse) * 0.01;
-    float r = texture2D(uTexture, pos + cos(time * 2. - time + pos.x) * .004).r;
-    float g = texture2D(uTexture, pos + sin(time * .5 + pos.x - time) * .004).g;
-    float b = texture2D(uTexture, pos - cos(time * 2. + time + pos.y) * .004).b;
+    float r = texture2D(uTexture, pos + cos(time * 2. - time + pos.x) * .006).r;
+    float g = texture2D(uTexture, pos + sin(time * .5 + pos.x - time) * .006).g;
+    float b = texture2D(uTexture, pos - cos(time * 2. + time + pos.y) * .006).b;
     float a = texture2D(uTexture, pos).a;
     gl_FragColor = vec4(r, g, b, a);
 }
@@ -47,8 +47,6 @@ void main() {
 Math.map = function (n, start, stop, start2, stop2) {
   return ((n - start) / (stop - start)) * (stop2 - start2) + start2;
 };
-
-const PX_RATIO = typeof window !== "undefined" ? window.devicePixelRatio : 1;
 
 class AsciiFilter {
   constructor(renderer, { fontSize, fontFamily, charset, invert } = {}) {
@@ -67,7 +65,7 @@ class AsciiFilter {
 
     this.canvas = document.createElement("canvas");
     this.context = this.canvas.getContext("2d");
-    this.domElement.appendChild(this.canvas);
+    // canvas is an off-DOM pixel-reading buffer; appending it causes white flashes
 
     this.invert = invert ?? true;
     this.fontSize = fontSize ?? 12;
@@ -151,7 +149,7 @@ class AsciiFilter {
         }
         str += "\n";
       }
-      this.pre.innerHTML = str;
+      this.pre.textContent = str;
     }
   }
 
@@ -353,8 +351,8 @@ class CanvAscii {
   }
 
   updateRotation() {
-    const x = Math.map(this.mouse.y, 0, this.height, 0.12, -0.12);
-    const y = Math.map(this.mouse.x, 0, this.width, -0.12, 0.12);
+    const x = Math.map(this.mouse.y, 0, this.height, 0.16, -0.16);
+    const y = Math.map(this.mouse.x, 0, this.width, -0.16, 0.16);
 
     this.mesh.rotation.x += (x - this.mesh.rotation.x) * 0.05;
     this.mesh.rotation.y += (y - this.mesh.rotation.y) * 0.05;
@@ -475,23 +473,6 @@ export default function ASCIIText({
     >
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&display=swap');
-
-        .ascii-text-container canvas {
-          position: absolute;
-          left: 0;
-          top: 0;
-          width: 100%;
-          height: 100%;
-          transform: translateZ(0);
-          will-change: transform, opacity;
-          image-rendering: optimizeSpeed;
-          image-rendering: -moz-crisp-edges;
-          image-rendering: -o-crisp-edges;
-          image-rendering: -webkit-optimize-contrast;
-          image-rendering: optimize-contrast;
-          image-rendering: crisp-edges;
-          image-rendering: pixelated;
-        }
 
         .ascii-text-container pre {
           margin: 0;

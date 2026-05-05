@@ -24,8 +24,8 @@ export default function Title() {
           text={titleText}
           enableWaves={true}
           asciiFontSize={5}
-          textFontSize={280}
-          planeBaseHeight={11}
+          textFontSize={260}
+          planeBaseHeight={10}
         />
       </div>
     </header>
