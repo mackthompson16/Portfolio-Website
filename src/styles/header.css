@@ -5,9 +5,7 @@
   z-index: 1000;
     min-width:140vw;
   /* frosted-glass */
-  background: rgba(0, 0, 0, 0.35);           /* tweak opacity as you like */
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(0, 0, 0, 0.58);
 
   display: flex;
   align-items: center;

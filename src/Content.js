@@ -1,6 +1,5 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import PropTypes from "prop-types";
-import { restoreBinaryHover, splitTextForBinaryHover } from "./binaryHover";
 import "./styles/tabs.css";
 import FolderTabs from "./FolderTabs.js";
 
@@ -11,16 +10,6 @@ const TRANSITION_MS = 560;
 const BUFFER_SIZE = 2;
 const CENTER_INDEX = BUFFER_SIZE;
 const MOBILE_REPEAT_COUNT = 3;
-const CONTENT_BINARY_TARGETS = [
-  ".title",
-  ".paragraph-header",
-  ".paragraph-text",
-  ".sublist-item",
-  ".link",
-  ".inline-link",
-  ".folder-tab",
-  ".tab-nav",
-].join(", ");
 
 const mod = (value, length) => ((value % length) + length) % length;
 
@@ -80,44 +69,6 @@ const Content = ({ title, tabs }) => {
     media.addEventListener("change", sync);
     return () => media.removeEventListener("change", sync);
   }, []);
-
-  useEffect(() => {
-    const root = containerRef.current;
-    if (!root) return;
-
-    const els = root.querySelectorAll(".fade-in");
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-            io.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    els.forEach((el) => io.observe(el));
-    return () => io.disconnect();
-  }, []);
-
-  useLayoutEffect(() => {
-    const root = containerRef.current;
-    if (!root) return;
-    if (typeof window !== "undefined" && window.matchMedia("(max-width: 720px)").matches) {
-      restoreBinaryHover(root);
-      return undefined;
-    }
-
-    restoreBinaryHover(root);
-    splitTextForBinaryHover(root, CONTENT_BINARY_TARGETS, ".folder-panel-measurements");
-    window.dispatchEvent(new MouseEvent("mousemove", { clientX: -9999, clientY: -9999 }));
-
-    return () => {
-      restoreBinaryHover(root);
-    };
-  });
 
   useEffect(() => {
     const measure = () => {
@@ -466,6 +417,7 @@ const Content = ({ title, tabs }) => {
             onRotate={handleRotate}
             groupId={groupId}
             loopOffset={loopOffset}
+            isMobile={isMobile}
           />
 
           <div className="folder-panel-measurements" aria-hidden="true">

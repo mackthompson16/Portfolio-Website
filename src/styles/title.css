@@ -1,47 +1,30 @@
 .App-title {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
-  justify-content: center;   /* centers the wrapper */
-  align-items: center;       /* centers vertically */
-  background: transparent;
-}
-
-
-/* Optional centered max-width container inside the header */
-.title-inner {
-  width: 100%;
-  max-width: 1100px;  /* whatever you like */
-  padding: 0.75rem 1rem;
-  display: flex;
-  justify-content: center;   /* center your title/nav inside */
   align-items: center;
-  gap: 1rem;
-    place-items: center; 
+  justify-content: center;
+  background: transparent;
+  overflow: hidden;
 }
 
-.ascii-logo {
-  line-height: 1; 
-}
-
-.px {
-  display: inline-block;
-  width: 1ch;                
-  text-align: center;           
-  transition: transform 120ms ease, color 120ms ease, text-shadow 120ms ease, opacity 120ms ease;
+.title-inner {
+  position: relative;
+  width: min(100%, 1440px);
+  height: min(72vh, 560px);
+  padding: 1.5rem;
+  transform: translateZ(0);
   will-change: transform, opacity;
+  backface-visibility: hidden;
 }
 
-.px.flip {
-  transform: rotateY(180deg) translateY(-1px);
-  color: var(--flip-color, #00ff00);
-  text-shadow: 0 0 8px rgba(0, 255, 0, 0.5);
-}
-
-@media(max-width: 400px){
-  .px{
-    width: 0.75ch;
+@media (max-width: 720px) {
+  .App-title {
+    min-height: 68vh;
   }
-  .App-title{
-    margin-left: 5 vw;
+
+  .title-inner {
+    width: 100%;
+    height: min(48vh, 360px);
+    padding: 0.75rem;
   }
 }

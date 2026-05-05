@@ -8,15 +8,39 @@
   --retro-glow: rgba(0, 255, 0, 0.5);
   --retro-glow-light: rgba(0, 255, 0, 0.3);
   --retro-glow-dark:  #1d1f24;
+  --galaxy-green: #7bff88;
+  --galaxy-cyan: #7df9ff;
+  --galaxy-blue: #6ea8ff;
+  --galaxy-violet: #c987ff;
+  --galaxy-orange: #ff9b71;
+  --galaxy-pink: #ff5c8a;
+  --galaxy-gradient: linear-gradient(
+    135deg,
+    var(--galaxy-green) 0%,
+    var(--galaxy-cyan) 22%,
+    var(--galaxy-blue) 42%,
+    var(--galaxy-violet) 62%,
+    var(--galaxy-orange) 82%,
+    var(--galaxy-pink) 100%
+  );
+  --galaxy-glow:
+    0 0 10px rgba(123, 255, 136, 0.18),
+    0 0 18px rgba(125, 249, 255, 0.14),
+    0 0 28px rgba(201, 135, 255, 0.12);
+  --galaxy-glow-strong:
+    0 0 8px rgba(123, 255, 136, 0.22),
+    0 0 16px rgba(125, 249, 255, 0.18),
+    0 0 24px rgba(110, 168, 255, 0.14);
 }
 
 html {
   scroll-behavior: smooth; /* enables smooth scroll for hash/ScrollTo */
+  background: #000;
 }
 
 
 body {
-  background-color: transparent;
+  background-color: #000;
   color: var(--retro-text);
   font-family: 'VT323';
   line-height: 1.6;
@@ -27,12 +51,13 @@ html, body {
   height: 100%;
   margin: 0;         /* remove UA margins */
   padding: 0;
-  
+  background: #000;
 }
 
 #root, .App {
   width: 100%;       /* not 100vw */
   min-width: 0;      /* allow shrinking */
+  background: transparent;
 }
 
 
@@ -41,8 +66,12 @@ html, body {
   flex-direction: column;
   overflow: visible;
   position: relative;
-  z-index: 1;                /* sits ABOVE the bg layer */
+  z-index: 2;
   isolation: isolate;   
+}
+
+.site-light-rays {
+  opacity: 0.92;
 }
 
 

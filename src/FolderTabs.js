@@ -10,10 +10,8 @@ export default function FolderTabs({
   onRotate,
   groupId,
   loopOffset = 0,
+  isMobile = false,
 }) {
-  const [isMobile, setIsMobile] = useState(() =>
-    typeof window !== "undefined" && window.matchMedia("(max-width: 720px)").matches
-  );
   const [visibleCount, setVisibleCount] = useState(() =>
     typeof window !== "undefined" && window.matchMedia("(max-width: 720px)").matches ? 3 : 5
   );
@@ -21,7 +19,6 @@ export default function FolderTabs({
   useEffect(() => {
     const media = window.matchMedia("(max-width: 720px)");
     const syncVisibleCount = (event) => {
-      setIsMobile(event.matches);
       setVisibleCount(event.matches ? 3 : 5);
     };
 

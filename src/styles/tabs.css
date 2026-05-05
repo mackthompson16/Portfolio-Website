@@ -18,7 +18,12 @@
   top: 0;
   display: block;
   font-size: 3rem;
-  color: var(--retro-green);           
+  color: transparent;
+  background-image: var(--galaxy-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: var(--galaxy-glow);
   transition: transform 200ms ease;
 }
 
@@ -68,17 +73,26 @@
 }
 
 .retro-tab.is-active {
-  color: var(--retro-green);
- 
+  color: transparent;
+  background-image: var(--galaxy-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: var(--galaxy-glow);
 }
 .retro-tab:not(.is-active):hover {
-  color: var(--retro-green-dark);
+  color: transparent;
+  background-image: var(--galaxy-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: var(--galaxy-glow);
 }
 
 /* accessibility */
 .retro-tab:focus { outline: none; }
 .retro-tab:focus-visible {
-  outline: 2px dashed var(--retro-green);
+  outline: 2px dashed var(--galaxy-cyan);
   outline-offset: 2px;
 }
 .retro-tab[disabled] { opacity: .5; pointer-events: none; }
