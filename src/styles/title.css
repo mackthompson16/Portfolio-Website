@@ -12,9 +12,7 @@
   width: min(100%, 1440px);
   height: min(72vh, 560px);
   padding: 1.5rem;
-  transform: translateZ(0);
-  will-change: transform, opacity;
-  backface-visibility: hidden;
+  will-change: transform;
 }
 
 @media (max-width: 720px) {

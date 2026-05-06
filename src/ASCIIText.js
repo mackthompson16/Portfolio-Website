@@ -57,8 +57,7 @@ class AsciiFilter {
     this.domElement.style.left = "0";
     this.domElement.style.width = "100%";
     this.domElement.style.height = "100%";
-    this.domElement.style.willChange = "transform, opacity";
-    this.domElement.style.transform = "translateZ(0)";
+    this.domElement.style.pointerEvents = "none";
 
     this.pre = document.createElement("pre");
     this.domElement.appendChild(this.pre);
@@ -483,8 +482,6 @@ export default function ASCIIText({
           position: absolute;
           left: 0;
           top: 0;
-          transform: translateZ(0);
-          will-change: transform, opacity;
           background-image: linear-gradient(135deg, #7bff88 0%, #7df9ff 22%, #6ea8ff 42%, #c987ff 62%, #ff9b71 82%, #ff5c8a 100%);
           -webkit-text-fill-color: transparent;
           -webkit-background-clip: text;
