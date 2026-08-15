@@ -1,7 +1,7 @@
 // Component ported and enhanced from https://codepen.io/JuanFuentes/pen/eYEeoyE
 
-import { useEffect, useRef } from "react";
-import * as THREE from "three";
+import { useEffect, useRef } from 'react';
+import * as THREE from 'three';
 
 const vertexShader = `
 varying vec2 vUv;
@@ -17,9 +17,9 @@ void main() {
 
     vec3 transformed = position;
 
-    transformed.x += sin(time + position.y) * 0.18 * waveFactor;
-    transformed.y += cos(time + position.z) * 0.06 * waveFactor;
-    transformed.z += sin(time + position.x) * 0.3 * waveFactor;
+    transformed.x += sin(time + position.y) * 0.5 * waveFactor;
+    transformed.y += cos(time + position.z) * 0.15 * waveFactor;
+    transformed.z += sin(time + position.x) * waveFactor;
 
     gl_Position = projectionMatrix * modelViewMatrix * vec4(transformed, 1.0);
 }
@@ -36,9 +36,9 @@ void main() {
     vec2 pos = vUv;
     
     float move = sin(time + mouse) * 0.01;
-    float r = texture2D(uTexture, pos + cos(time * 2. - time + pos.x) * .006).r;
-    float g = texture2D(uTexture, pos + sin(time * .5 + pos.x - time) * .006).g;
-    float b = texture2D(uTexture, pos - cos(time * 2. + time + pos.y) * .006).b;
+    float r = texture2D(uTexture, pos + cos(time * 2. - time + pos.x) * .01).r;
+    float g = texture2D(uTexture, pos + tan(time * .5 + pos.x - time) * .01).g;
+    float b = texture2D(uTexture, pos - cos(time * 2. + time + pos.y) * .01).b;
     float a = texture2D(uTexture, pos).a;
     gl_FragColor = vec4(r, g, b, a);
 }
@@ -48,36 +48,47 @@ Math.map = function (n, start, stop, start2, stop2) {
   return ((n - start) / (stop - start)) * (stop2 - start2) + start2;
 };
 
+const PX_RATIO = typeof window !== 'undefined' ? window.devicePixelRatio : 1;
+
 class AsciiFilter {
   constructor(renderer, { fontSize, fontFamily, charset, invert } = {}) {
     this.renderer = renderer;
-    this.domElement = document.createElement("div");
-    this.domElement.style.position = "absolute";
-    this.domElement.style.top = "0";
-    this.domElement.style.left = "0";
-    this.domElement.style.width = "100%";
-    this.domElement.style.height = "100%";
-    this.domElement.style.pointerEvents = "none";
+    this.domElement = document.createElement('div');
+    this.domElement.style.position = 'absolute';
+    this.domElement.style.top = '0';
+    this.domElement.style.left = '0';
+    this.domElement.style.width = '100%';
+    this.domElement.style.height = '100%';
 
-    this.pre = document.createElement("pre");
+    this.pre = document.createElement('pre');
     this.domElement.appendChild(this.pre);
 
-    this.canvas = document.createElement("canvas");
-    this.context = this.canvas.getContext("2d");
-    // canvas is an off-DOM pixel-reading buffer; appending it causes white flashes
+    this.canvas = document.createElement('canvas');
+    this.context = this.canvas.getContext('2d');
+    this.domElement.appendChild(this.canvas);
 
+    this.deg = 0;
     this.invert = invert ?? true;
     this.fontSize = fontSize ?? 12;
     this.fontFamily = fontFamily ?? "'Courier New', monospace";
-    this.charset =
-      charset ??
-      ' .\'`^",:;Il!i~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$';
+    this.charset = charset ?? ' .\'`^",:;Il!i~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$';
 
     this.context.webkitImageSmoothingEnabled = false;
     this.context.mozImageSmoothingEnabled = false;
     this.context.msImageSmoothingEnabled = false;
     this.context.imageSmoothingEnabled = false;
 
+    this.onMouseMove = this.onMouseMove.bind(this);
+    document.addEventListener('mousemove', this.onMouseMove);
+
+    this._scrolling = false;
+    this._scrollTimer = null;
+    this._onScroll = () => {
+      this._scrolling = true;
+      clearTimeout(this._scrollTimer);
+      this._scrollTimer = setTimeout(() => { this._scrolling = false; }, 200);
+    };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
   }
 
   setSize(width, height) {
@@ -92,7 +103,7 @@ class AsciiFilter {
 
   reset() {
     this.context.font = `${this.fontSize}px ${this.fontFamily}`;
-    const charWidth = this.context.measureText("A").width;
+    const charWidth = this.context.measureText('A').width;
 
     this.cols = Math.floor(this.width / (this.fontSize * (charWidth / this.fontSize)));
     this.rows = Math.floor(this.height / this.fontSize);
@@ -101,17 +112,15 @@ class AsciiFilter {
     this.canvas.height = this.rows;
     this.pre.style.fontFamily = this.fontFamily;
     this.pre.style.fontSize = `${this.fontSize}px`;
-    this.pre.style.margin = "0";
-    this.pre.style.padding = "0";
-    this.pre.style.lineHeight = "1.05em";
-    this.pre.style.position = "absolute";
-    this.pre.style.left = "0";
-    this.pre.style.top = "0";
-    this.pre.style.zIndex = "9";
-    this.pre.style.backgroundImage =
-      "linear-gradient(135deg, #7bff88 0%, #7df9ff 22%, #6ea8ff 42%, #c987ff 62%, #ff9b71 82%, #ff5c8a 100%)";
-    this.pre.style.webkitTextFillColor = "transparent";
-    this.pre.style.webkitBackgroundClip = "text";
+    this.pre.style.margin = '0';
+    this.pre.style.padding = '0';
+    this.pre.style.lineHeight = '1em';
+    this.pre.style.position = 'absolute';
+    this.pre.style.left = '0';
+    this.pre.style.top = '0';
+    this.pre.style.zIndex = '9';
+    this.pre.style.backgroundAttachment = 'fixed';
+    this.pre.style.mixBlendMode = 'difference';
   }
 
   render(scene, camera) {
@@ -125,19 +134,42 @@ class AsciiFilter {
     }
 
     this.asciify(this.context, w, h);
+    this.hue();
+  }
+
+  onMouseMove(e) {
+    this.mouse = { x: e.clientX * PX_RATIO, y: e.clientY * PX_RATIO };
+  }
+
+  get dx() {
+    return this.mouse.x - this.center.x;
+  }
+
+  get dy() {
+    return this.mouse.y - this.center.y;
+  }
+
+  hue() {
+    if (this._scrolling) return;
+    const deg = (Math.atan2(this.dy, this.dx) * 180) / Math.PI;
+    this.deg += (deg - this.deg) * 0.075;
+    const next = `hue-rotate(${this.deg.toFixed(0)}deg)`;
+    if (this.domElement.style.filter !== next) {
+      this.domElement.style.filter = next;
+    }
   }
 
   asciify(ctx, w, h) {
     if (w && h) {
       const imgData = ctx.getImageData(0, 0, w, h).data;
-      let str = "";
-      for (let y = 0; y < h; y += 1) {
-        for (let x = 0; x < w; x += 1) {
+      let str = '';
+      for (let y = 0; y < h; y++) {
+        for (let x = 0; x < w; x++) {
           const i = x * 4 + y * 4 * w;
           const [r, g, b, a] = [imgData[i], imgData[i + 1], imgData[i + 2], imgData[i + 3]];
 
           if (a === 0) {
-            str += " ";
+            str += ' ';
             continue;
           }
 
@@ -146,20 +178,23 @@ class AsciiFilter {
           if (this.invert) idx = this.charset.length - idx - 1;
           str += this.charset[idx];
         }
-        str += "\n";
+        str += '\n';
       }
-      this.pre.textContent = str;
+      this.pre.innerHTML = str;
     }
   }
 
   dispose() {
+    document.removeEventListener('mousemove', this.onMouseMove);
+    window.removeEventListener('scroll', this._onScroll);
+    clearTimeout(this._scrollTimer);
   }
 }
 
 class CanvasTxt {
-  constructor(txt, { fontSize = 200, fontFamily = "Arial", color = "#fdf9f3" } = {}) {
-    this.canvas = document.createElement("canvas");
-    this.context = this.canvas.getContext("2d");
+  constructor(txt, { fontSize = 200, fontFamily = 'Arial', color = '#fdf9f3' } = {}) {
+    this.canvas = document.createElement('canvas');
+    this.context = this.canvas.getContext('2d');
     this.txt = txt;
     this.fontSize = fontSize;
     this.fontFamily = fontFamily;
@@ -170,18 +205,17 @@ class CanvasTxt {
 
   resize() {
     this.context.font = this.font;
-    const lines = this.txt.split("\n");
-    const metrics = lines.map((line) => this.context.measureText(line));
-    const textWidth = Math.ceil(Math.max(...metrics.map((metric) => metric.width), 0)) + 20;
+    const lines = this.txt.split('\n');
+    const metrics = lines.map(line => this.context.measureText(line));
+
+    const textWidth = Math.ceil(Math.max(...metrics.map(m => m.width), 0)) + 100;
     const lineHeight = Math.ceil(
       Math.max(
-        ...metrics.map(
-          (metric) => metric.actualBoundingBoxAscent + metric.actualBoundingBoxDescent
-        ),
+        ...metrics.map(m => m.actualBoundingBoxAscent + m.actualBoundingBoxDescent),
         this.fontSize
       )
     );
-    const textHeight = lineHeight * lines.length + 20;
+    const textHeight = lineHeight * lines.length + 60;
 
     this.canvas.width = textWidth;
     this.canvas.height = textHeight;
@@ -192,12 +226,12 @@ class CanvasTxt {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.context.fillStyle = this.color;
     this.context.font = this.font;
-    const lines = this.txt.split("\n");
 
+    const lines = this.txt.split('\n');
     lines.forEach((line, index) => {
       const metrics = this.context.measureText(line);
-      const yPos = 10 + metrics.actualBoundingBoxAscent + index * this.lineHeight;
-      this.context.fillText(line, 10, yPos);
+      const yPos = 30 + metrics.actualBoundingBoxAscent + index * this.lineHeight;
+      this.context.fillText(line, 50, yPos);
     });
   }
 
@@ -242,7 +276,7 @@ class CanvAscii {
 
   async init() {
     try {
-      await document.fonts.load('600 200px "IBM Plex Mono"');
+      await document.fonts.load(`600 ${this.textFontSize}px "IBM Plex Mono"`);
       await document.fonts.load('500 12px "IBM Plex Mono"');
     } catch (e) {
       // Font loading failed, continue with fallback
@@ -256,8 +290,8 @@ class CanvAscii {
   setMesh() {
     this.textCanvas = new CanvasTxt(this.textString, {
       fontSize: this.textFontSize,
-      fontFamily: "IBM Plex Mono",
-      color: this.textColor,
+      fontFamily: 'IBM Plex Mono',
+      color: this.textColor
     });
     this.textCanvas.resize();
     this.textCanvas.render();
@@ -279,8 +313,8 @@ class CanvAscii {
         uTime: { value: 0 },
         mouse: { value: 1.0 },
         uTexture: { value: this.texture },
-        uEnableWaves: { value: this.enableWaves ? 1.0 : 0.0 },
-      },
+        uEnableWaves: { value: this.enableWaves ? 1.0 : 0.0 }
+      }
     });
 
     this.mesh = new THREE.Mesh(this.geometry, this.material);
@@ -293,16 +327,16 @@ class CanvAscii {
     this.renderer.setClearColor(0x000000, 0);
 
     this.filter = new AsciiFilter(this.renderer, {
-      fontFamily: "IBM Plex Mono",
+      fontFamily: 'IBM Plex Mono',
       fontSize: this.asciiFontSize,
-      invert: true,
+      invert: true
     });
 
     this.container.appendChild(this.filter.domElement);
     this.setSize(this.width, this.height);
 
-    this.container.addEventListener("mousemove", this.onMouseMove);
-    this.container.addEventListener("touchmove", this.onMouseMove);
+    this.container.addEventListener('mousemove', this.onMouseMove);
+    this.container.addEventListener('touchmove', this.onMouseMove);
   }
 
   setSize(w, h) {
@@ -350,23 +384,19 @@ class CanvAscii {
   }
 
   updateRotation() {
-    const x = Math.map(this.mouse.y, 0, this.height, 0.16, -0.16);
-    const y = Math.map(this.mouse.x, 0, this.width, -0.16, 0.16);
+    const x = Math.map(this.mouse.y, 0, this.height, 0.5, -0.5);
+    const y = Math.map(this.mouse.x, 0, this.width, -0.5, 0.5);
 
     this.mesh.rotation.x += (x - this.mesh.rotation.x) * 0.05;
     this.mesh.rotation.y += (y - this.mesh.rotation.y) * 0.05;
   }
 
   clear() {
-    this.scene.traverse((obj) => {
-      if (obj.isMesh && typeof obj.material === "object" && obj.material !== null) {
-        Object.keys(obj.material).forEach((key) => {
+    this.scene.traverse(obj => {
+      if (obj.isMesh && typeof obj.material === 'object' && obj.material !== null) {
+        Object.keys(obj.material).forEach(key => {
           const matProp = obj.material[key];
-          if (
-            matProp !== null &&
-            typeof matProp === "object" &&
-            typeof matProp.dispose === "function"
-          ) {
+          if (matProp !== null && typeof matProp === 'object' && typeof matProp.dispose === 'function') {
             matProp.dispose();
           }
         });
@@ -385,8 +415,8 @@ class CanvAscii {
         this.container.removeChild(this.filter.domElement);
       }
     }
-    this.container.removeEventListener("mousemove", this.onMouseMove);
-    this.container.removeEventListener("touchmove", this.onMouseMove);
+    this.container.removeEventListener('mousemove', this.onMouseMove);
+    this.container.removeEventListener('touchmove', this.onMouseMove);
     this.clear();
     if (this.renderer) {
       this.renderer.dispose();
@@ -396,22 +426,22 @@ class CanvAscii {
 }
 
 export default function ASCIIText({
-  text = "David!",
+  text = 'David!',
   asciiFontSize = 8,
   textFontSize = 200,
-  textColor = "#fdf9f3",
+  textColor = '#fdf9f3',
   planeBaseHeight = 8,
-  enableWaves = true,
+  enableWaves = true
 }) {
   const containerRef = useRef(null);
   const asciiRef = useRef(null);
 
   useEffect(() => {
-    if (!containerRef.current) return undefined;
+    if (!containerRef.current) return;
 
     let cancelled = false;
+    let observer = null;
     let ro = null;
-    let retryFrame = null;
 
     const createAndInit = async (container, w, h) => {
       const instance = new CanvAscii(
@@ -428,7 +458,25 @@ export default function ASCIIText({
       const { width, height } = containerRef.current.getBoundingClientRect();
 
       if (width === 0 || height === 0) {
-        retryFrame = window.requestAnimationFrame(setup);
+        observer = new IntersectionObserver(
+          async ([entry]) => {
+            if (cancelled) return;
+            if (entry.isIntersecting && entry.boundingClientRect.width > 0 && entry.boundingClientRect.height > 0) {
+              const { width: w, height: h } = entry.boundingClientRect;
+              observer.disconnect();
+              observer = null;
+
+              if (!cancelled) {
+                asciiRef.current = await createAndInit(containerRef.current, w, h);
+                if (!cancelled && asciiRef.current) {
+                  asciiRef.current.load();
+                }
+              }
+            }
+          },
+          { threshold: 0.1 }
+        );
+        observer.observe(containerRef.current);
         return;
       }
 
@@ -436,7 +484,7 @@ export default function ASCIIText({
       if (!cancelled && asciiRef.current) {
         asciiRef.current.load();
 
-        ro = new ResizeObserver((entries) => {
+        ro = new ResizeObserver(entries => {
           if (!entries[0] || !asciiRef.current) return;
           const { width: w, height: h } = entries[0].contentRect;
           if (w > 0 && h > 0) {
@@ -451,7 +499,7 @@ export default function ASCIIText({
 
     return () => {
       cancelled = true;
-      if (retryFrame) window.cancelAnimationFrame(retryFrame);
+      if (observer) observer.disconnect();
       if (ro) ro.disconnect();
       if (asciiRef.current) {
         asciiRef.current.dispose();
@@ -465,27 +513,42 @@ export default function ASCIIText({
       ref={containerRef}
       className="ascii-text-container"
       style={{
-        position: "absolute",
-        width: "100%",
-        height: "100%",
+        position: 'absolute',
+        width: '100%',
+        height: '100%'
       }}
     >
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&display=swap');
+        .ascii-text-container canvas {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          image-rendering: optimizeSpeed;
+          image-rendering: -moz-crisp-edges;
+          image-rendering: -o-crisp-edges;
+          image-rendering: -webkit-optimize-contrast;
+          image-rendering: optimize-contrast;
+          image-rendering: crisp-edges;
+          image-rendering: pixelated;
+        }
 
         .ascii-text-container pre {
           margin: 0;
           user-select: none;
           padding: 0;
-          line-height: 1.05em;
+          line-height: 1em;
           text-align: left;
           position: absolute;
           left: 0;
           top: 0;
-          background-image: linear-gradient(135deg, #7bff88 0%, #7df9ff 22%, #6ea8ff 42%, #c987ff 62%, #ff9b71 82%, #ff5c8a 100%);
+          background-image: radial-gradient(circle, #ff6188 0%, #fc9867 50%, #ffd866 100%);
+          background-attachment: fixed;
           -webkit-text-fill-color: transparent;
           -webkit-background-clip: text;
           z-index: 9;
+          mix-blend-mode: difference;
         }
       `}</style>
     </div>

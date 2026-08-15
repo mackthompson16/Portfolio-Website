@@ -48,30 +48,49 @@ const contents = [
     title: "Professional",
     tabs: [
       {
-        title: "HPE Cloud",
+        title: "Harmony AI",
         body: (
           <div className="paragraphs-list">
             <section className="paragraph-item">
-              <ST as="h4" className="paragraph-header">Cloud Engineering Intern</ST>
+              <ST as="h4" className="paragraph-header">Forward Deployed Engineer</ST>
               <ST as="p" className="paragraph-text">
-                <span className="date-stamp">Summer 2026 | Sunnyvale, CA</span>
+                <span className="date-stamp">Aug 2026 - Present | Chattanooga, TN</span>
               </ST>
-              <ST as="p" className="paragraph-text">I'm gonna be in <strong>SILICON VALLEY BABY</strong> doing Cloud migration work/networking on the Juniper Campus.</ST>
+              <ST as="p" className="paragraph-text">
+                Just started full-time at <strong>Harmony AI</strong>, which is building an AI operating system for <strong>American manufacturing</strong>.
+              </ST>
+              <ST as="p" className="paragraph-text">
+                So now I get to go straight to the factories and wire AI into <strong>machines, systems, data, and ops workflows</strong>. Very my speed.
+              </ST>
+              <ST
+                as="a"
+                href="https://tryharmony.ai"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link retro-tab"
+                radius={90}
+                duration={0.8}
+              >
+                &gt;[View Company]
+              </ST>
             </section>
           </div>
         ),
       },
       {
-        title: "Southern Co.",
+        title: "HPE / Juniper",
         body: (
           <div className="paragraphs-list">
             <section className="paragraph-item">
-              <ST as="h4" className="paragraph-header">AI Intern</ST>
+              <ST as="h4" className="paragraph-header">Cloud Engineer Intern</ST>
               <ST as="p" className="paragraph-text">
-                <span className="date-stamp">Fall 2026 | Atlanta, GA</span>
+                <span className="date-stamp">Summer 2026 | Silicon Valley</span>
               </ST>
-              <ST as="p" className="paragraph-text">Super excited for this one
-                 because I'll be working directly with the <strong>Chief of IT </strong> on AI for energy/cyber, and living at <strong> home in ATL.</strong>
+              <ST as="p" className="paragraph-text">
+                Built a deterministic <strong>Playwright crawler</strong> that walked a giant enterprise networking platform and generated hierarchical UI trees across releases.
+              </ST>
+              <ST as="p" className="paragraph-text">
+                Also built version-aware tooling to carry old <strong>XPath</strong> references onto new UI hierarchies, so regression tests didn't just explode every time the product moved stuff around.
               </ST>
             </section>
           </div>

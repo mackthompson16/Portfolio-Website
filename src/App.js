@@ -88,21 +88,22 @@ export default function App() {
 
   return (
     <div className="App">
-      <Galaxy
-        mouseRepulsion={true}
-        mouseInteraction={true}
-        density={1.15}
-        glowIntensity={0.42}
-        saturation={0.85}
-        hueShift={130}
-        speed={0.85}
-        starSpeed={0.42}
-        twinkleIntensity={0.28}
-        rotationSpeed={0.06}
-        repulsionStrength={1.4}
-        transparent={false}
-        className="site-light-rays"
-      />
+     <div>
+  <Galaxy 
+    mouseRepulsion
+    mouseInteraction={false}
+    density={1}
+    glowIntensity={0.3}
+    saturation={0.4}
+    hueShift={140}
+    twinkleIntensity={0.3}
+    rotationSpeed={0.1}
+    repulsionStrength={2}
+    autoCenterRepulsion={0}
+    starSpeed={0.5}
+    speed={1}
+/>
+</div>
       <Title />
 
       <section className="main">
